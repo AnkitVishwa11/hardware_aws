@@ -85,6 +85,13 @@ export function generateDemoTelemetry(
       break;
   }
 
+  // Base geographic position (e.g. Jharia Coalfield Panel P-4B)
+  const baseLat = 23.7524;
+  const baseLng = 86.4218;
+  const latOffset = Math.sin(tickCount * 0.05) * 0.0018;
+  const lngOffset = Math.cos(tickCount * 0.05) * 0.0018;
+  const roverHeading = Math.round((Math.atan2(lngOffset, latOffset) * 180 / Math.PI + 360) % 360);
+
   return {
     device_id: 'ROVER_01',
     timestamp: now,
@@ -106,6 +113,12 @@ export function generateDemoTelemetry(
     battery_voltage: Number(batt.toFixed(1)),
     connection_status: conn,
     measurement_point: mp,
+    latitude: Number((baseLat + latOffset).toFixed(6)),
+    longitude: Number((baseLng + lngOffset).toFixed(6)),
+    altitude: Number((184.5 + Math.sin(tickCount * 0.05) * 1.5).toFixed(1)),
+    satellites: 9,
+    speed_kmh: Number((0.8 + (Math.random() - 0.5) * 0.2).toFixed(1)),
+    heading: roverHeading,
     is_demo: true
   };
 }

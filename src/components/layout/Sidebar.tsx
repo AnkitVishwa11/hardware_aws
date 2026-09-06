@@ -15,11 +15,15 @@ import {
   Cpu, 
   Radio, 
   X,
-  ChevronRight
+  ChevronRight,
+  MapPin,
+  BrainCircuit
 } from 'lucide-react';
 
 export type NavSectionId = 
   | 'dashboard'
+  | 'map'
+  | 'predictive'
   | 'displacement'
   | 'ultrasonic'
   | 'tilt'
@@ -60,9 +64,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const navGroups: NavGroup[] = [
     {
-      groupName: 'OVERVIEW',
+      groupName: 'OVERVIEW & GEOSPATIAL',
       items: [
-        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard }
+        { id: 'dashboard', label: 'Command Center', icon: LayoutDashboard },
+        { id: 'map', label: 'GIS Mine Mesh Map', icon: MapPin }
+      ]
+    },
+    {
+      groupName: 'AI & PREDICTION',
+      items: [
+        { id: 'predictive', label: 'AI Predictive Forecast', icon: BrainCircuit },
+        { id: 'risk', label: 'Risk Analysis', icon: ShieldAlert },
+        { id: 'historical', label: 'Historical Telemetry', icon: History }
       ]
     },
     {
@@ -73,33 +86,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ]
     },
     {
-      groupName: 'MOTION',
+      groupName: 'MOTION & STRUCTURAL',
       items: [
-        { id: 'tilt', label: 'Rover Tilt', icon: Compass },
-        { id: 'vibration', label: 'Vibration', icon: Activity }
+        { id: 'tilt', label: 'Rover Tilt / Pitch', icon: Compass },
+        { id: 'vibration', label: 'Vibration Analysis', icon: Activity }
       ]
     },
     {
-      groupName: 'ENVIRONMENT',
+      groupName: 'ATMOSPHERE & MINE',
       items: [
         { id: 'gas', label: 'Gas Monitoring', icon: Wind },
         { id: 'temp', label: 'Temperature', icon: Thermometer },
-        { id: 'humidity', label: 'Humidity', icon: Droplets },
-        { id: 'moisture', label: 'Moisture', icon: Waves }
+        { id: 'humidity', label: 'Humidity', icon: Droplets }
       ]
     },
     {
-      groupName: 'ANALYSIS',
+      groupName: 'SYSTEM & FLEET',
       items: [
-        { id: 'risk', label: 'Risk Analysis', icon: ShieldAlert },
-        { id: 'historical', label: 'Historical Data', icon: History }
-      ]
-    },
-    {
-      groupName: 'SYSTEM',
-      items: [
-        { id: 'alerts', label: 'Alerts', icon: Bell, badge: activeAlertsCount },
-        { id: 'system', label: 'Gateway & API Status', icon: Cpu }
+        { id: 'alerts', label: 'Alerts Management', icon: Bell, badge: activeAlertsCount },
+        { id: 'system', label: 'Hardware & Gateway Health', icon: Cpu }
       ]
     }
   ];

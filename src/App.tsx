@@ -13,6 +13,8 @@ import { AlertsPanel } from './components/scada/AlertsPanel';
 import { TimeSeriesLineChart } from './components/charts/TimeSeriesLineChart';
 import { HistoricalDataTab } from './components/dashboard/HistoricalDataTab';
 import { HardwareStatusTab } from './components/dashboard/HardwareStatusTab';
+import { GisMapTab } from './components/dashboard/GisMapTab';
+import { PredictiveForecastTab } from './components/dashboard/PredictiveForecastTab';
 import { LoadingState } from './components/common/FeedbackStates';
 import { DISCLAIMERS, PROJECT_INFO } from './utils/constants';
 import { Ruler, ShieldAlert } from 'lucide-react';
@@ -56,7 +58,7 @@ export const App: React.FC = () => {
 
   const handleSelectSection = (section: NavSectionId) => {
     setActiveSection(section);
-    if (section === 'historical' || section === 'system') {
+    if (section === 'historical' || section === 'system' || section === 'map' || section === 'predictive') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -126,6 +128,50 @@ export const App: React.FC = () => {
         <div className="p-4 sm:p-6 lg:p-8 space-y-8 max-w-[1600px] w-full mx-auto">
           {isLoading && !currentData ? (
             <LoadingState message="Connecting to Rover Telemetry Uplink..." />
+          ) : activeSection === 'map' ? (
+            /* Dedicated GIS Geospatial Mine Map View */
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
+                <div>
+                  <h2 className="text-lg font-mono font-bold text-white uppercase">GIS Surface Mesh & Mine Map</h2>
+                  <p className="text-xs text-slate-400 font-mono">Geospatial positioning of surface mesh nodes and subsidence hazard zones</p>
+                </div>
+                <button
+                  onClick={() => setActiveSection('dashboard')}
+                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
+                >
+                  ← Return to Command Center
+                </button>
+              </div>
+              <GisMapTab
+                currentData={currentData}
+                history={history}
+                roverId={roverId}
+                isDemo={mode === 'DEMO'}
+              />
+            </div>
+          ) : activeSection === 'predictive' ? (
+            /* Dedicated AI/ML Predictive Forecast View */
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
+                <div>
+                  <h2 className="text-lg font-mono font-bold text-white uppercase">AI/ML Subsidence Predictive Engine</h2>
+                  <p className="text-xs text-slate-400 font-mono">Future strata deformation trajectory projection (1h – 6h horizon)</p>
+                </div>
+                <button
+                  onClick={() => setActiveSection('dashboard')}
+                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
+                >
+                  ← Return to Command Center
+                </button>
+              </div>
+              <PredictiveForecastTab
+                history={history}
+                baseline={baseline}
+                currentData={currentData}
+                isDemo={mode === 'DEMO'}
+              />
+            </div>
           ) : activeSection === 'historical' ? (
             /* Dedicated Historical Data View */
             <div className="space-y-6">

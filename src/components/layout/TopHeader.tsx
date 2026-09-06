@@ -214,6 +214,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             className="hidden xl:block rounded-md border border-slate-700 bg-[#070a12] px-2.5 py-1.5 text-xs font-mono text-slate-300 focus:outline-none focus:border-slate-500 cursor-pointer"
             title="Telemetry polling interval"
           >
+            <option value={1000}>1s Real-Time (Live)</option>
             <option value={3000}>3s Polling</option>
             <option value={5000}>5s Polling</option>
             <option value={10000}>10s Polling</option>
@@ -274,6 +275,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 aria-label="Select Polling Rate Mobile"
                 className="w-full rounded bg-[#070a12] p-1.5 text-slate-200 border border-slate-700"
               >
+                <option value={1000}>1s Live Stream</option>
                 <option value={3000}>3s Polling</option>
                 <option value={5000}>5s Polling</option>
                 <option value={10000}>10s Polling</option>

@@ -50,7 +50,7 @@ export function useRoverData(): UseRoverDataReturn {
   const [mode, setMode] = useState<DataSourceMode>('DEMO');
   const [roverId, setRoverId] = useState<string>('ROVER_01');
   const [demoScenario, setDemoScenario] = useState<DemoScenario>('normal');
-  const [pollIntervalMs, setPollIntervalMs] = useState<number>(5000); // 5 seconds default
+  const [pollIntervalMs, setPollIntervalMs] = useState<number>(1000); // 1 second real-time tick
 
   const [currentData, setCurrentData] = useState<SensorData | null>(null);
   const [history, setHistory] = useState<SensorData[]>([]);

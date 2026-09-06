@@ -40,9 +40,62 @@ export interface SensorData {
   battery_voltage: number | null; // Volts
   connection_status: 'online' | 'stale' | 'offline' | string;
 
+  // GPS & Positioning Module Telemetry
+  latitude?: number | null;
+  longitude?: number | null;
+  altitude?: number | null; // meters
+  satellites?: number | null;
+  speed_kmh?: number | null;
+  heading?: number | null; // degrees 0-360
+
   // Measurement point marker (when rover stops at predetermined inspection points)
   measurement_point?: string;
   is_demo?: boolean;
+}
+
+export interface SurfaceMeshNode {
+  id: string;
+  node_name: string;
+  role: 'GATEWAY' | 'ROVER' | 'SURFACE_ANCHOR';
+  latitude: number;
+  longitude: number;
+  altitude: number;
+  distance_to_ground_cm: number;
+  tilt_deg: number;
+  vibration_rms: number;
+  gas_adc: number;
+  battery_pct: number;
+  rssi_dbm: number;
+  mesh_hops: number;
+  parent_node_id?: string;
+  last_packet_time: string;
+  status: 'STABLE' | 'WARNING' | 'CRITICAL' | 'OFFLINE';
+}
+
+export interface SubsidenceForecastPoint {
+  timeLabel: string;
+  timestamp: string;
+  observedSagCm: number | null;
+  predictedSagCm: number;
+  confidenceLowerCm: number;
+  confidenceUpperCm: number;
+  rateCmPerHr: number;
+  isProjected: boolean;
+}
+
+export interface ForecastAnalysis {
+  currentSagCm: number;
+  projectedSag1hCm: number;
+  projectedSag3hCm: number;
+  projectedSag6hCm: number;
+  currentVelocityCmPerHour: number;
+  accelerationCmPerHour2: number;
+  estimatedTimeToWarningHours: number | null;
+  estimatedTimeToCriticalHours: number | null;
+  confidenceScorePct: number;
+  riskTrend: 'STABLE' | 'ACCELERATING' | 'CRITICAL_SAG';
+  aiRecommendation: string;
+  forecastPoints: SubsidenceForecastPoint[];
 }
 
 export type RiskLevel = 'NORMAL' | 'WARNING' | 'CRITICAL';
@@ -94,6 +147,8 @@ export interface StationaryMeasurementPoint {
   displacement_delta: number; // Change in distance relative to baseline (cm)
   vibration_status: 'NORMAL' | 'MODERATE' | 'HIGH';
   gas_level: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface GroundBaseline {
@@ -110,5 +165,6 @@ export interface HardwareHealth {
   mpu6050: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'NO_DATA';
   gas_sensor: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'NO_DATA';
   dht11: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'NO_DATA';
+  gps_neo6m?: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'NO_DATA';
   esp32_gateway: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'NO_DATA';
 }
