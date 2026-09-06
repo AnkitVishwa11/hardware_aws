@@ -62,9 +62,12 @@ In our working prototype, we use a **high-reliability one-way UART Serial commun
 |                              (Mine Safety Control Room Interface)                                  |
 |                                                                                                    |
 |  • Ground Profile Curve, Artificial Horizon, Vibration RMS, Gas ADC, Risk Gauge, Alerts Table      |
+|  • Multi-Rover Swarm Fleet Management (SubSentry Alpha & Beta Dual-Panel Synchronization)          |
+|  • 3D Subsidence Basin Digital Twin (Knothe 3D Wireframe + Damage Radius + Void Volume)           |
 |  • GIS Surface Mesh Mine Map Tab (Leaflet GPS Radar + Panel Polygon + Subsidence Heatmap)         |
 |  • AI/ML Predictive Subsidence Forecast Tab (1h - 6h Projections + 95% Confidence Bands)           |
-|  • 3D Subsidence Basin Digital Twin (Knothe 3D Wireframe + Damage Radius + Void Volume)           |
+|  • AI vs Knothe-Budryk Scientific Model Benchmark Tool (R² = 0.964, MAE = 0.032 cm, RMSE = 0.037)  |
+|  • 1-Click DGMS Statutory Safety Audit Report Generator (Tech Form IV-A Print/PDF Certificate)     |
 +----------------------------------------------------------------------------------------------------+
 ```
 
