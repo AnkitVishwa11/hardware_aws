@@ -15,6 +15,9 @@ This folder contains the captured visual graphs, GIS geospatial maps, AI predict
 | **`04_historical_sensor_telemetry.png`** | **Historical Telemetry Logs** | Multi-parameter query console with 6 time-series line charts ($S_1/S_2/S_3$, Tilt, Vibration, Gas, Temp, Humidity) and CSV exporter. |
 | **`05_hardware_gateway_diagnostics.png`** | **Hardware & Gateway Health** | System architecture block diagram, REST API diagnostic tool, and individual sensor health status. |
 | **`06_3d_subsidence_basin_digital_twin.png`** | **3D Subsidence Digital Twin (USP)** | Knothe empirical 3D ground depression bowl, damage radius ($R = 56\text{m}$), horizontal strain ($\text{mm/m}$), caved goaf volume ($7.9\text{ m}^3$), and infrastructure vulnerability audit. |
+| **`07_dgms_statutory_audit_report.png`** | **DGMS Statutory Safety Audit Certificate** | Official Tech Form IV-A compliance report with statutory parameter verification (PASS/FAIL) and digital officer sign-off stamps. |
+| **`08_fleet_swarm_dual_panel_sync.png`** | **Multi-Rover Swarm Fleet & Dual-Panel Sync** | Simultaneous monitoring of SubSentry Alpha (`ROVER_01` in Panel P-4B) and SubSentry Beta (`ROVER_02` in Panel P-2A) with inter-panel differential variance. |
+| **`09_ai_vs_knothe_model_benchmark.png`** | **AI vs Knothe Scientific Model Benchmark** | Mathematical model cross-validation with $R^2 = 0.964$, MAE $0.032\text{ cm}$, RMSE $0.037\text{ cm}$, residual distribution bars, and spatial depression trough curves. |
 | **`subsentry_telemetry_results.csv`** | **Raw Telemetry Dataset (CSV)** | Exported time-series records formatted for AI model training and DGMS compliance auditing. |
 
 ---
@@ -39,3 +42,21 @@ This folder contains the captured visual graphs, GIS geospatial maps, AI predict
 * **Predictive Horizon**: Projects future ground sag trajectory for $+1\text{h}$, $+3\text{h}$, and $+6\text{h}$.
 * **Model Confidence**: $R^2 = 0.94$ ($94\%$ statistical confidence).
 * **Time-to-Critical Breach**: Automatically calculates estimated hours remaining until critical statutory limit breach.
+
+---
+
+### 4. DGMS Statutory Safety Audit Report (`07_dgms_statutory_audit_report.png`)
+* **Statutory Compliance**: Compares ground sag, floor inclination, seismic vibration, and atmospheric toxic gas against statutory mining safety limits.
+* **Print-Ready PDF Certificate**: Official Government of India / DGMS Directorate header with automated digital safety officer signature stamps.
+
+---
+
+### 5. Multi-Rover Swarm Fleet Management (`08_fleet_swarm_dual_panel_sync.png`)
+* **Dual-Panel Coordination**: Tracks `ROVER_01` in Longwall Panel P-4B and `ROVER_02` in Depillaring Panel P-2A.
+* **Differential Geotechnical Analysis**: Calculates inter-panel sag delta variance ($|S_1 - S_2|$) and sub-GHz LoRa mesh link hop status.
+
+---
+
+### 6. AI vs Knothe-Budryk Model Benchmark (`09_ai_vs_knothe_model_benchmark.png`)
+* **Scientific Cross-Validation**: Superimposes live observed sensor telemetry, AI Polynomial Autoregressive curve ($R^2 = 0.964$), and classical Knothe-Budryk theoretical curve.
+* **Error Metrics**: Displays real-time MAE ($0.032\text{ cm}$), RMSE ($0.037\text{ cm}$), and spatial residual error distributions.
