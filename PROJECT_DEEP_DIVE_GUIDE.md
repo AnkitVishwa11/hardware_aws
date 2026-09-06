@@ -166,6 +166,32 @@ Here is the exhaustive analysis of every component in the **SubSentry SCADA Dash
 
 ---
 
+### 9️⃣ Multi-Rover Swarm Fleet Management & Dual-Panel Sync (`FleetSwarmTab.tsx`)
+* **Features**:
+  * Simultaneous live telemetry monitoring of `ROVER_01` (SubSentry Alpha in Panel P-4B Longwall) and `ROVER_02` (SubSentry Beta in Panel P-2A Depillaring).
+  * **Inter-Panel Differential Variance Matrix**: Calculates real-time $\Delta\text{Sag}$ differential gap ($|S_1 - S_2|$), floor incline angular variance, and sub-GHz mesh link hop status.
+
+---
+
+### 🔟 3D Subsidence Basin Digital Twin & Knothe-Budryk Modeler (`SubsidenceBasinTab.tsx`)
+* **The Geotechnical Science**: Uses **Knothe-Budryk Mining Subsidence Theory** ($S(r) = S_{\text{max}} \cdot \exp(-\pi r^2 / R^2)$).
+* **3D Visual Wireframe**: Interactive canvas showing the 3D ground depression bowl under the terrain with orbital rotation slider ($0^\circ - 90^\circ$).
+* **Infrastructure Impact Audit**: Evaluates State Highway 4, Coal Haulage Railway Siding, and Kusunda Village colony against statutory DGMS Class 0 to Class IV damage limits.
+
+---
+
+### 1️⃣1️⃣ AI vs Knothe-Budryk Scientific Model Benchmark (`ModelBenchmarkTab.tsx`)
+* **Scientific Cross-Validation**: Superimposes live observed sensor telemetry, AI Polynomial Autoregressive curve ($R^2 = 0.964$), and classical Knothe-Budryk theoretical curve.
+* **Live Error Metrics**: Displays real-time MAE ($0.032\text{ cm}$), RMSE ($0.037\text{ cm}$), and spatial residual error distributions.
+
+---
+
+### 1️⃣2️⃣ 1-Click DGMS Statutory Safety Audit Report Generator (`DgmsReportModal.tsx`)
+* **Official Tech Form IV-A Format**: Government/DGMS-standard printable certificate with automated PASS/FAIL parameter verification, statutory risk classification, engineering directives checklist, and digital officer sign-off stamps.
+* **Instant Print / PDF Action**: Browser-native `window.print()` media formatting.
+
+---
+
 ## 🔀 4. Complete System Architecture & Data Flow (Layman Diagram)
 
 ```mermaid
