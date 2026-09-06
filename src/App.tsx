@@ -17,10 +17,11 @@ import { GisMapTab } from './components/dashboard/GisMapTab';
 import { PredictiveForecastTab } from './components/dashboard/PredictiveForecastTab';
 import { SubsidenceBasinTab } from './components/dashboard/SubsidenceBasinTab';
 import { FleetSwarmTab } from './components/dashboard/FleetSwarmTab';
+import { ModelBenchmarkTab } from './components/dashboard/ModelBenchmarkTab';
 import { DgmsReportModal } from './components/reports/DgmsReportModal';
 import { LoadingState } from './components/common/FeedbackStates';
 import { DISCLAIMERS, PROJECT_INFO } from './utils/constants';
-import { Ruler, ShieldAlert, Sparkles, MapPin, Boxes, BrainCircuit, Activity, ChevronUp, Users } from 'lucide-react';
+import { Ruler, ShieldAlert, Sparkles, MapPin, Boxes, BrainCircuit, Activity, ChevronUp, Users, Scale } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<NavSectionId>('dashboard');
@@ -68,6 +69,7 @@ export const App: React.FC = () => {
     'fleet-swarm': 'section-fleet-swarm',
     'digital-twin': 'section-digital-twin',
     'ai-forecast': 'section-ai-forecast',
+    'model-benchmark': 'section-model-benchmark',
     'motion': 'section-motion',
     'environment': 'section-environment',
     'risk': 'section-risk',
@@ -246,7 +248,17 @@ export const App: React.FC = () => {
                 />
               </section>
 
-              {/* SECTION 5 — GROUND SUBSIDENCE & ACOUSTIC CONVERGENCE */}
+              {/* SECTION 5 — AI VS KNOTHE-BUDRYK SCIENTIFIC MODEL BENCHMARK */}
+              <section id="section-model-benchmark" className="scroll-mt-20 space-y-2.5">
+                <ModelBenchmarkTab
+                  history={history}
+                  baseline={baseline}
+                  currentData={currentData}
+                  isDemo={mode === 'DEMO'}
+                />
+              </section>
+
+              {/* SECTION 6 — GROUND SUBSIDENCE & ACOUSTIC CONVERGENCE */}
               <section id="section-ground-monitoring" className="scroll-mt-20 space-y-2.5">
                 <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
                   <div className="flex items-center gap-2">

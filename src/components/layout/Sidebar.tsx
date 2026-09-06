@@ -17,7 +17,8 @@ import {
   MapPin,
   BrainCircuit,
   Boxes,
-  Users
+  Users,
+  Scale
 } from 'lucide-react';
 
 export type NavSectionId = 
@@ -27,6 +28,7 @@ export type NavSectionId =
   | 'fleet-swarm'
   | 'digital-twin'
   | 'ai-forecast'
+  | 'model-benchmark'
   | 'motion'
   | 'environment'
   | 'risk'
@@ -74,6 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { id: 'digital-twin', label: '3D Digital Twin Basin', icon: Boxes },
         { id: 'ai-forecast', label: 'AI Predictive Forecast', icon: BrainCircuit },
+        { id: 'model-benchmark', label: 'AI vs Knothe Benchmark', icon: Scale },
         { id: 'historical', label: 'Historical Telemetry', icon: History }
       ]
     },
