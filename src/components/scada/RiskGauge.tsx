@@ -16,26 +16,26 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'CRITICAL':
-        return <span className="text-[11px] font-bold text-rose-400">CRITICAL</span>;
+        return <span className="text-[11px] font-bold text-rose-700">CRITICAL</span>;
       case 'WARNING':
       case 'MODERATE':
-        return <span className="text-[11px] font-bold text-amber-400">MODERATE</span>;
+        return <span className="text-[11px] font-bold text-amber-700">MODERATE</span>;
       case 'NORMAL':
       default:
-        return <span className="text-[11px] font-bold text-emerald-400">NORMAL</span>;
+        return <span className="text-[11px] font-bold text-emerald-700">NORMAL</span>;
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'CRITICAL':
-        return <AlertTriangle className="h-3.5 w-3.5 text-rose-400 shrink-0" />;
+        return <AlertTriangle className="h-3.5 w-3.5 text-rose-600 shrink-0" />;
       case 'WARNING':
       case 'MODERATE':
-        return <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0" />;
+        return <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0" />;
       case 'NORMAL':
       default:
-        return <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />;
+        return <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />;
     }
   };
 
@@ -49,16 +49,18 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
   ];
 
   return (
-    <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-5 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#1c2842] pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <ShieldAlert className="h-4 w-4 text-amber-400" />
-          <h3 className="text-xs font-mono font-bold tracking-wider text-slate-200 uppercase">
+          <div className="p-1 rounded bg-amber-50 text-amber-600 border border-amber-100">
+            <ShieldAlert className="h-4 w-4" />
+          </div>
+          <h3 className="text-xs font-mono font-bold tracking-wider text-slate-900 uppercase">
             REAL-TIME STRUCTURAL RISK
           </h3>
         </div>
-        <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 font-mono text-[11px] font-bold text-emerald-400 border border-emerald-500/30">
+        <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 font-mono text-[11px] font-bold text-emerald-700 border border-emerald-200">
           {level}
         </span>
       </div>
@@ -73,7 +75,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
               <path
                 d="M 15 80 A 65 65 0 0 1 145 80"
                 fill="none"
-                stroke="#1c2842"
+                stroke="#e2e8f0"
                 strokeWidth="14"
                 strokeLinecap="round"
               />
@@ -84,7 +86,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
                 stroke="#10b981"
                 strokeWidth="14"
                 strokeLinecap="round"
-                opacity="0.4"
+                opacity="0.8"
               />
               {/* Amber zone (40 - 75%) */}
               <path
@@ -92,7 +94,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
                 fill="none"
                 stroke="#f59e0b"
                 strokeWidth="14"
-                opacity="0.4"
+                opacity="0.8"
               />
               {/* Red zone (75 - 100%) */}
               <path
@@ -101,25 +103,25 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
                 stroke="#ef4444"
                 strokeWidth="14"
                 strokeLinecap="round"
-                opacity="0.4"
+                opacity="0.8"
               />
 
               {/* Dynamic Needle Pointer */}
               <g transform={`rotate(${angle} 80 80)`}>
-                <line x1="80" y1="80" x2="80" y2="22" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="80" cy="80" r="5" fill="#f59e0b" />
+                <line x1="80" y1="80" x2="80" y2="22" stroke="#0f172a" strokeWidth="2.5" strokeLinecap="round" />
+                <circle cx="80" cy="80" r="5" fill="#d97706" />
               </g>
             </svg>
 
             {/* Score in Center */}
             <div className="absolute bottom-0 text-center font-mono">
-              <span className="text-2xl font-bold text-white leading-none block">{score}</span>
-              <span className="text-[10px] text-slate-400">/ 100 INDEX</span>
+              <span className="text-2xl font-bold text-slate-900 leading-none block">{score}</span>
+              <span className="text-[10px] text-slate-500 font-semibold">/ 100 INDEX</span>
             </div>
           </div>
 
           <div className="mt-2 text-center">
-            <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider block">
+            <span className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider block">
               Current: {level}
             </span>
             <span className="text-[10px] font-mono text-slate-500">
@@ -130,7 +132,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
 
         {/* Right: Contributing Factors Checklist (7 cols) */}
         <div className="lg:col-span-7 font-mono text-xs">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+          <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-2">
             CONTRIBUTING HAZARD FACTORS:
           </span>
 
@@ -138,9 +140,9 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
             {contributingFactors.map((f, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between rounded-lg bg-[#070a12] px-3 py-2 border border-[#1c2842]"
+                className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 border border-slate-200"
               >
-                <div className="flex items-center gap-2 text-slate-300">
+                <div className="flex items-center gap-2 text-slate-800 font-medium">
                   {getStatusIcon(f.status)}
                   <span className="text-xs">{f.name}</span>
                 </div>
@@ -149,7 +151,7 @@ export const RiskGauge: React.FC<RiskGaugeProps> = ({ risk }) => {
             ))}
           </div>
 
-          <div className="mt-3 rounded bg-[#070a12]/60 p-2 text-[10px] text-slate-400 border border-[#1c2842]/60">
+          <div className="mt-3 rounded bg-slate-50 p-2.5 text-[10px] text-slate-600 border border-slate-200">
             <strong>Prototype Disclaimer:</strong> Calibrated rule-based hazard index for SIH26025 technical evaluation. Architecture ready for future LSTM convergence machine-learning models.
           </div>
         </div>

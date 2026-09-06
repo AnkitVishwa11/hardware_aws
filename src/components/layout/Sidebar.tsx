@@ -8,12 +8,10 @@ import {
   Wind, 
   Thermometer, 
   Droplets, 
-  Waves, 
   ShieldAlert, 
   History, 
   Bell, 
   Cpu, 
-  Radio, 
   X,
   ChevronRight,
   MapPin,
@@ -23,17 +21,12 @@ import {
 
 export type NavSectionId = 
   | 'dashboard'
-  | 'map'
-  | 'basin'
-  | 'predictive'
-  | 'displacement'
-  | 'ultrasonic'
-  | 'tilt'
-  | 'vibration'
-  | 'gas'
-  | 'temp'
-  | 'humidity'
-  | 'moisture'
+  | 'ground-monitoring'
+  | 'gis-map'
+  | 'digital-twin'
+  | 'ai-forecast'
+  | 'motion'
+  | 'environment'
   | 'risk'
   | 'historical'
   | 'alerts'
@@ -68,46 +61,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       groupName: 'OVERVIEW & GEOSPATIAL',
       items: [
-        { id: 'dashboard', label: 'Command Center', icon: LayoutDashboard },
-        { id: 'map', label: 'GIS Mine Mesh Map', icon: MapPin }
+        { id: 'dashboard', label: 'Executive KPIs', icon: LayoutDashboard },
+        { id: 'ground-monitoring', label: 'Ground Profile & Sag', icon: Ruler },
+        { id: 'gis-map', label: 'GIS Mine Mesh Map', icon: MapPin }
       ]
     },
     {
-      groupName: 'AI & PREDICTION',
+      groupName: 'AI & PREDICTION (KILLER USPs)',
       items: [
-        { id: 'basin', label: '3D Digital Twin Basin', icon: Boxes },
-        { id: 'predictive', label: 'AI Predictive Forecast', icon: BrainCircuit },
-        { id: 'risk', label: 'Risk Analysis', icon: ShieldAlert },
+        { id: 'digital-twin', label: '3D Digital Twin Basin', icon: Boxes },
+        { id: 'ai-forecast', label: 'AI Predictive Forecast', icon: BrainCircuit },
         { id: 'historical', label: 'Historical Telemetry', icon: History }
       ]
     },
     {
-      groupName: 'GROUND MONITORING',
+      groupName: 'MOTION & ENVIRONMENT',
       items: [
-        { id: 'displacement', label: 'Ground Displacement', icon: Ruler },
-        { id: 'ultrasonic', label: 'Ultrasonic Sensors', icon: Layers }
+        { id: 'motion', label: 'Tilt & Vibration RMS', icon: Compass },
+        { id: 'environment', label: 'Gas, Temp & Humidity', icon: Wind }
       ]
     },
     {
-      groupName: 'MOTION & STRUCTURAL',
+      groupName: 'SAFETY & DIAGNOSTICS',
       items: [
-        { id: 'tilt', label: 'Rover Tilt / Pitch', icon: Compass },
-        { id: 'vibration', label: 'Vibration Analysis', icon: Activity }
-      ]
-    },
-    {
-      groupName: 'ATMOSPHERE & MINE',
-      items: [
-        { id: 'gas', label: 'Gas Monitoring', icon: Wind },
-        { id: 'temp', label: 'Temperature', icon: Thermometer },
-        { id: 'humidity', label: 'Humidity', icon: Droplets }
-      ]
-    },
-    {
-      groupName: 'SYSTEM & FLEET',
-      items: [
-        { id: 'alerts', label: 'Alerts Management', icon: Bell, badge: activeAlertsCount },
-        { id: 'system', label: 'Hardware & Gateway Health', icon: Cpu }
+        { id: 'risk', label: 'Multi-Factor Risk Score', icon: ShieldAlert },
+        { id: 'alerts', label: 'Safety Hazard Alerts', icon: Bell, badge: activeAlertsCount },
+        { id: 'system', label: 'Hardware & Gateway Link', icon: Cpu }
       ]
     }
   ];
@@ -123,32 +102,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isOpenMobile && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm lg:hidden"
         />
       )}
 
       {/* Fixed 240px Sidebar */}
       <aside
-        className={`fixed top-[72px] bottom-0 left-0 z-40 flex w-[240px] flex-col border-r border-[#1c2842] bg-[#0c1222] transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-[72px] bottom-0 left-0 z-40 flex w-[240px] flex-col border-r border-slate-200 bg-white transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isOpenMobile ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Mobile Header Close Strip */}
-        <div className="flex h-10 items-center justify-between px-4 border-b border-[#1c2842] lg:hidden bg-[#070a12]">
-          <span className="text-xs font-mono font-bold text-amber-400">NAVIGATION MENU</span>
+        <div className="flex h-10 items-center justify-between px-4 border-b border-slate-200 lg:hidden bg-slate-50">
+          <span className="text-xs font-mono font-bold text-slate-800">SECTIONS</span>
           <button
             onClick={onCloseMobile}
-            className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white"
+            className="rounded p-1 text-slate-500 hover:bg-slate-200 hover:text-slate-900"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Scrollable Nav List */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
           {navGroups.map((group) => (
             <div key={group.groupName} className="space-y-1">
-              <div className="px-3 text-[10px] font-mono font-bold tracking-wider text-slate-500 uppercase">
+              <div className="px-3 text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">
                 {group.groupName}
               </div>
 
@@ -160,23 +139,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <button
                     key={item.id}
                     onClick={() => handleSelect(item.id)}
-                    className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-xs font-medium transition-all ${
+                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-all ${
                       isActive
-                        ? 'bg-[#10192d] text-amber-400 font-semibold border-l-2 border-amber-500 shadow-sm'
-                        : 'text-slate-400 hover:bg-[#10192d]/50 hover:text-slate-200'
+                        ? 'bg-amber-50 text-amber-900 font-bold border-l-3 border-amber-500 shadow-sm'
+                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-amber-400' : 'text-slate-500'}`} />
+                      <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-amber-600' : 'text-slate-400'}`} />
                       <span className="truncate">{item.label}</span>
                     </div>
 
                     {item.badge !== undefined && item.badge > 0 ? (
-                      <span className="rounded-full bg-rose-500/20 px-1.5 py-0.2 text-[10px] font-mono font-bold text-rose-400 border border-rose-500/30">
+                      <span className="rounded-full bg-rose-100 px-1.5 py-0.2 text-[10px] font-mono font-bold text-rose-700 border border-rose-200">
                         {item.badge}
                       </span>
                     ) : isActive ? (
-                      <ChevronRight className="h-3 w-3 text-amber-500/60" />
+                      <ChevronRight className="h-3.5 w-3.5 text-amber-600" />
                     ) : null}
                   </button>
                 );
@@ -186,24 +165,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Bottom Hardware Status Pod */}
-        <div className="border-t border-[#1c2842] bg-[#070a12] p-3 m-2 rounded-lg border border-[#1c2842] font-mono text-[11px] space-y-2">
-          <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider flex items-center justify-between">
-            <span>HARDWARE LINK</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="border-t border-slate-200 bg-slate-50 p-3 m-2 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1.5">
+          <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider flex items-center justify-between">
+            <span>HARDWARE PIPELINE</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>
 
-          <div className="space-y-1 text-slate-300">
+          <div className="space-y-1 text-slate-700 text-[10px]">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">ESP32 Gateway:</span>
-              <span className="text-emerald-400 font-bold flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> ONLINE
-              </span>
+              <span className="text-slate-500">Arduino Uno:</span>
+              <span className="text-emerald-700 font-bold">UART ACTIVE</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Arduino UNO:</span>
-              <span className="text-emerald-400 font-bold flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> CONNECTED
-              </span>
+              <span className="text-slate-500">ESP32 Gateway:</span>
+              <span className="text-emerald-700 font-bold">WI-FI UPLINK</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-500">AWS Docker:</span>
+              <span className="text-sky-700 font-bold">POSTGRESQL</span>
             </div>
           </div>
         </div>

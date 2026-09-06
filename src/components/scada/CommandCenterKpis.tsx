@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ruler, Compass, Activity, Wind, Clock } from 'lucide-react';
+import { Ruler, Compass, Activity, Wind, Clock, Satellite, BatteryCharging, ShieldAlert } from 'lucide-react';
 import { SensorData } from '../../types/sensor';
 
 export interface CommandCenterKpisProps {
@@ -20,143 +20,176 @@ export const CommandCenterKpis: React.FC<CommandCenterKpisProps> = ({
   const maxTilt = Math.max(Math.abs(tiltX), Math.abs(tiltY));
   const vibRms = currentData?.vibration_rms ?? 0.16;
   const gas = currentData?.gas ?? 394;
+  const batt = currentData?.battery_voltage ?? 12.4;
+  const sats = currentData?.satellites ?? 9;
+
+  const isDispWarn = dispDelta >= 2.0;
+  const isTiltWarn = maxTilt >= 4.0;
+  const isVibWarn = vibRms >= 0.35;
+  const isGasWarn = gas >= 520;
 
   return (
     <div className="space-y-4">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#1c2842] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-base sm:text-lg font-mono font-extrabold tracking-wide text-white uppercase">
-              ROVER COMMAND CENTER
+            <h2 className="text-base sm:text-lg font-mono font-extrabold tracking-wide text-slate-900 uppercase">
+              EXECUTIVE COMMAND CENTER
             </h2>
             {isDemo && (
-              <span className="rounded bg-amber-500/10 px-2 py-0.5 text-[9px] font-mono font-bold tracking-wider text-amber-400 border border-amber-500/25">
-                DEMO DATA
+              <span className="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-amber-800 border border-amber-300">
+                1S LIVE SIMULATION
               </span>
             )}
           </div>
-          <p className="text-xs text-slate-400 font-mono mt-0.5">
-            Real-time mine subsidence, motion and environmental monitoring
+          <p className="text-xs text-slate-500 font-mono mt-0.5">
+            Real-time multi-sensor telemetry stream from Underground Coal Panel P-4B
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-400 self-start sm:self-auto bg-[#070a12] px-3 py-1.5 rounded-lg border border-[#1c2842]">
-          <Clock className="h-3.5 w-3.5 text-sky-400" />
-          <span>Last synchronization:</span>
-          <span className="font-bold text-white">{lastUpdatedTime}</span>
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-600 self-start sm:self-auto bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+          <Clock className="h-3.5 w-3.5 text-sky-600" />
+          <span>Last Sync:</span>
+          <span className="font-bold text-slate-900">{lastUpdatedTime}</span>
         </div>
       </div>
 
-      {/* 4 Compact KPI Cards */}
+      {/* 4 Primary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {/* 1. Ground Displacement */}
-        <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-4 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between text-slate-400">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div className="flex items-center justify-between text-slate-500">
             <div className="flex items-center gap-2">
-              <div className="rounded p-1.5 bg-sky-500/10 text-sky-400 border border-sky-500/20">
+              <div className="rounded-lg p-2 bg-sky-50 text-sky-600 border border-sky-200">
                 <Ruler className="h-4 w-4" />
               </div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                Ground Displacement
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                Ground Sag (S2)
               </span>
             </div>
-            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
-              NORMAL
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              isDispWarn ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            }`}>
+              {isDispWarn ? 'WARN' : 'NOMINAL'}
             </span>
           </div>
 
-          <div className="mt-3 flex items-baseline gap-1 font-mono">
-            <span className="text-2xl sm:text-3xl font-bold text-white">{dispDelta.toFixed(1)}</span>
-            <span className="text-xs text-slate-400 font-medium">cm</span>
+          <div className="mt-3 flex items-baseline justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-mono font-bold text-slate-900">
+                {dispDelta.toFixed(1)}
+              </span>
+              <span className="text-xs font-mono text-slate-500 font-semibold">cm Δ</span>
+            </div>
+            <span className="text-xs font-mono text-slate-400">Base: 22.0cm</span>
           </div>
 
-          <div className="mt-2 text-[11px] font-mono text-slate-400 border-t border-[#1c2842] pt-2 flex items-center justify-between">
-            <span>Sensor: Ultrasonic S1/S2/S3</span>
-            <span className="text-emerald-400 font-semibold">Nominal</span>
+          <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100 pt-2 flex items-center justify-between">
+            <span>Clearance: {d2.toFixed(1)} cm</span>
+            <span className="text-sky-600 font-semibold">Sensor S2 Center</span>
           </div>
         </div>
 
         {/* 2. Rover Tilt */}
-        <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-4 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between text-slate-400">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div className="flex items-center justify-between text-slate-500">
             <div className="flex items-center gap-2">
-              <div className="rounded p-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <div className="rounded-lg p-2 bg-amber-50 text-amber-600 border border-amber-200">
                 <Compass className="h-4 w-4" />
               </div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                Rover Tilt
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                Ground Incline (Tilt)
               </span>
             </div>
-            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
-              NORMAL
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              isTiltWarn ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            }`}>
+              {isTiltWarn ? 'HIGH TILT' : 'STABLE'}
             </span>
           </div>
 
-          <div className="mt-3 flex items-baseline gap-1 font-mono">
-            <span className="text-2xl sm:text-3xl font-bold text-white">{maxTilt.toFixed(1)}°</span>
+          <div className="mt-3 flex items-baseline justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-mono font-bold text-slate-900">
+                {maxTilt.toFixed(1)}
+              </span>
+              <span className="text-xs font-mono text-slate-500 font-semibold">°</span>
+            </div>
+            <span className="text-xs font-mono text-slate-400">Pitch / Roll</span>
           </div>
 
-          <div className="mt-2 text-[11px] font-mono text-slate-400 border-t border-[#1c2842] pt-2 flex items-center justify-between">
-            <span>X: {tiltX.toFixed(1)}°</span>
-            <span>Y: {tiltY.toFixed(1)}°</span>
-            <span className="text-emerald-400 font-semibold">Level</span>
+          <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100 pt-2 flex items-center justify-between">
+            <span>X: {tiltX.toFixed(1)}° | Y: {tiltY.toFixed(1)}°</span>
+            <span className="text-amber-600 font-semibold">MPU6050 IMU</span>
           </div>
         </div>
 
-        {/* 3. Vibration */}
-        <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-4 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between text-slate-400">
+        {/* 3. Vibration RMS */}
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div className="flex items-center justify-between text-slate-500">
             <div className="flex items-center gap-2">
-              <div className="rounded p-1.5 bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              <div className="rounded-lg p-2 bg-purple-50 text-purple-600 border border-purple-200">
                 <Activity className="h-4 w-4" />
               </div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                Vibration
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                Vibration RMS
               </span>
             </div>
-            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
-              NORMAL
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              isVibWarn ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            }`}>
+              {isVibWarn ? 'CRITICAL SHOCK' : 'LOW NOISE'}
             </span>
           </div>
 
-          <div className="mt-3 flex items-baseline gap-1.5 font-mono">
-            <span className="text-2xl sm:text-3xl font-bold text-white">{vibRms.toFixed(2)}</span>
-            <span className="text-xs text-slate-400 font-medium">g RMS</span>
+          <div className="mt-3 flex items-baseline justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-mono font-bold text-slate-900">
+                {vibRms.toFixed(2)}
+              </span>
+              <span className="text-xs font-mono text-slate-500 font-semibold">g RMS</span>
+            </div>
+            <span className="text-xs font-mono text-slate-400">Limit: 0.35g</span>
           </div>
 
-          <div className="mt-2 text-[11px] font-mono text-slate-400 border-t border-[#1c2842] pt-2 flex items-center justify-between">
-            <span>Dynamic hold sampling</span>
-            <span className="text-emerald-400 font-semibold">Smooth</span>
+          <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100 pt-2 flex items-center justify-between">
+            <span>Seismic Micro-Cracks</span>
+            <span className="text-purple-600 font-semibold">3-Axis Accel</span>
           </div>
         </div>
 
-        {/* 4. Environmental Gas */}
-        <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-4 shadow-sm relative overflow-hidden">
-          <div className="flex items-center justify-between text-slate-400">
+        {/* 4. Atmospheric Gas */}
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+          <div className="flex items-center justify-between text-slate-500">
             <div className="flex items-center gap-2">
-              <div className="rounded p-1.5 bg-teal-500/10 text-teal-400 border border-teal-500/20">
+              <div className="rounded-lg p-2 bg-emerald-50 text-emerald-600 border border-emerald-200">
                 <Wind className="h-4 w-4" />
               </div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                Environmental Gas
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                Raw Gas ADC
               </span>
             </div>
-            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
-              NORMAL
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              isGasWarn ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            }`}>
+              {isGasWarn ? 'GAS ELEVATED' : 'NORMAL'}
             </span>
           </div>
 
-          <div className="mt-3 flex items-baseline gap-1.5 font-mono">
-            <span className="text-2xl sm:text-3xl font-bold text-white">{gas}</span>
-            <span className="text-xs text-amber-400 font-medium bg-amber-500/15 px-1.5 py-0.5 rounded border border-amber-500/20">
-              ADC
-            </span>
+          <div className="mt-3 flex items-baseline justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl sm:text-3xl font-mono font-bold text-slate-900">
+                {gas}
+              </span>
+              <span className="text-xs font-mono text-slate-500 font-semibold">ADC</span>
+            </div>
+            <span className="text-xs font-mono text-slate-400">Scale: 0-1023</span>
           </div>
 
-          <div className="mt-2 text-[11px] font-mono text-slate-400 border-t border-[#1c2842] pt-2 flex items-center justify-between">
-            <span>Raw ADC Voltage</span>
-            <span className="text-emerald-400 font-semibold">Safe</span>
+          <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100 pt-2 flex items-center justify-between">
+            <span>MQ Gas Sensor</span>
+            <span className="text-emerald-600 font-semibold">Uncalibrated Raw</span>
           </div>
         </div>
       </div>

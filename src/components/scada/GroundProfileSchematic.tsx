@@ -42,106 +42,108 @@ export const GroundProfileSchematic: React.FC<GroundProfileSchematicProps> = ({
   const y3 = mapY(val3);
 
   return (
-    <div className="rounded-xl border border-[#1c2842] bg-[#10192d] p-5 shadow-sm flex flex-col justify-between">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#1c2842] pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <Layers className="h-4 w-4 text-sky-400" />
-          <h3 className="text-xs font-mono font-bold tracking-wider text-slate-200 uppercase">
+          <div className="p-1 rounded bg-sky-50 text-sky-600 border border-sky-100">
+            <Layers className="h-4 w-4" />
+          </div>
+          <h3 className="text-xs font-mono font-bold tracking-wider text-slate-900 uppercase">
             3-POINT GROUND PROFILE (CROSS-SECTION)
           </h3>
         </div>
-        <span className="font-mono text-[10px] text-slate-400">
-          Schematic Convergence Plane
+        <span className="font-mono text-[10px] text-slate-500 font-medium bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+          Convergence Plane
         </span>
       </div>
 
       {/* SVG Technical Roof Cross-Section */}
-      <div className="relative rounded-lg bg-[#070a12] p-3 border border-[#1c2842] my-1">
-        <div className="text-[10px] font-mono text-slate-500 mb-1 flex items-center justify-between">
-          <span>MINE CEILING ROOF CONVERGENCE PROFILE</span>
-          <span className="text-amber-400 font-semibold">S1 ─── S2 ─── S3</span>
+      <div className="relative rounded-lg bg-slate-50 p-3 border border-slate-200 my-1">
+        <div className="text-[10px] font-mono text-slate-500 mb-1 flex items-center justify-between font-semibold">
+          <span>MINE ROOF CONVERGENCE PROFILE</span>
+          <span className="text-amber-600 font-bold">S1 ─── S2 ─── S3</span>
         </div>
 
         <svg viewBox="0 0 380 130" className="w-full h-32">
           {/* Depth Grid Lines */}
-          <line x1="30" y1="25" x2="350" y2="25" stroke="#1c2842" strokeDasharray="2 2" />
-          <line x1="30" y1="62" x2="350" y2="62" stroke="#1c2842" strokeDasharray="2 2" />
-          <line x1="30" y1="100" x2="350" y2="100" stroke="#1c2842" strokeDasharray="2 2" />
+          <line x1="30" y1="25" x2="350" y2="25" stroke="#e2e8f0" strokeDasharray="2 2" />
+          <line x1="30" y1="62" x2="350" y2="62" stroke="#e2e8f0" strokeDasharray="2 2" />
+          <line x1="30" y1="100" x2="350" y2="100" stroke="#e2e8f0" strokeDasharray="2 2" />
 
           {/* Calibrated Roof Baseline (dashed reference) */}
-          <line x1="45" y1="50" x2="335" y2="50" stroke="#475569" strokeDasharray="4 4" strokeWidth="1.5" />
-          <text x="340" y="53" fill="#64748b" fontSize="8" fontFamily="monospace">Base (22cm)</text>
+          <line x1="45" y1="50" x2="335" y2="50" stroke="#94a3b8" strokeDasharray="4 4" strokeWidth="1.5" />
+          <text x="340" y="53" fill="#64748b" fontSize="8" fontFamily="monospace" fontWeight="bold">Base (22cm)</text>
 
           {/* Curved deformation line connecting 3 ultrasonic beams */}
           <path
             d={`M 60 ${y1} Q 190 ${y2} 320 ${y3}`}
             fill="none"
-            stroke={isWarning ? "#f59e0b" : "#0ea5e9"}
+            stroke={isWarning ? "#d97706" : "#0284c7"}
             strokeWidth="3"
           />
 
           {/* Area fill under roof curve */}
           <path
             d={`M 60 ${y1} Q 190 ${y2} 320 ${y3} L 320 115 L 60 115 Z`}
-            fill="url(#roofDeformGrad)"
-            opacity="0.25"
+            fill="url(#roofDeformGradLight)"
+            opacity="0.2"
           />
 
           <defs>
-            <linearGradient id="roofDeformGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={isWarning ? "#f59e0b" : "#0ea5e9"} />
-              <stop offset="100%" stopColor="#070a12" stopOpacity="0" />
+            <linearGradient id="roofDeformGradLight" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={isWarning ? "#d97706" : "#0284c7"} />
+              <stop offset="100%" stopColor="#f8fafc" stopOpacity="0" />
             </linearGradient>
           </defs>
 
           {/* Sensor 1 Beam (Left) */}
-          <line x1="60" y1={y1} x2="60" y2="115" stroke="#38bdf8" strokeDasharray="2 2" opacity="0.6" />
-          <circle cx="60" cy={y1} r="5" fill="#38bdf8" stroke="#ffffff" strokeWidth="1.5" />
-          <text x="45" y={y1 - 10} fill="#38bdf8" fontSize="9" fontFamily="monospace" fontWeight="bold">S1: {val1.toFixed(1)}</text>
+          <line x1="60" y1={y1} x2="60" y2="115" stroke="#0284c7" strokeDasharray="2 2" opacity="0.6" />
+          <circle cx="60" cy={y1} r="5" fill="#0284c7" stroke="#ffffff" strokeWidth="1.5" />
+          <text x="45" y={y1 - 10} fill="#0369a1" fontSize="9" fontFamily="monospace" fontWeight="bold">S1: {val1.toFixed(1)}</text>
 
           {/* Sensor 2 Beam (Center) */}
-          <line x1="190" y1={y2} x2="190" y2="115" stroke="#f59e0b" strokeDasharray="2 2" opacity="0.6" />
-          <circle cx="190" cy={y2} r="5" fill="#f59e0b" stroke="#ffffff" strokeWidth="1.5" />
-          <text x="175" y={y2 - 10} fill="#f59e0b" fontSize="9" fontFamily="monospace" fontWeight="bold">S2: {val2.toFixed(1)}</text>
+          <line x1="190" y1={y2} x2="190" y2="115" stroke="#d97706" strokeDasharray="2 2" opacity="0.6" />
+          <circle cx="190" cy={y2} r="5" fill="#d97706" stroke="#ffffff" strokeWidth="1.5" />
+          <text x="175" y={y2 - 10} fill="#b45309" fontSize="9" fontFamily="monospace" fontWeight="bold">S2: {val2.toFixed(1)}</text>
 
           {/* Sensor 3 Beam (Right) */}
-          <line x1="320" y1={y3} x2="320" y2="115" stroke="#10b981" strokeDasharray="2 2" opacity="0.6" />
-          <circle cx="320" cy={y3} r="5" fill="#10b981" stroke="#ffffff" strokeWidth="1.5" />
-          <text x="305" y={y3 - 10} fill="#10b981" fontSize="9" fontFamily="monospace" fontWeight="bold">S3: {val3.toFixed(1)}</text>
+          <line x1="320" y1={y3} x2="320" y2="115" stroke="#059669" strokeDasharray="2 2" opacity="0.6" />
+          <circle cx="320" cy={y3} r="5" fill="#059669" stroke="#ffffff" strokeWidth="1.5" />
+          <text x="305" y={y3 - 10} fill="#047857" fontSize="9" fontFamily="monospace" fontWeight="bold">S3: {val3.toFixed(1)}</text>
 
           {/* Rover Chassis at the base */}
-          <rect x="40" y="114" width="300" height="12" rx="3" fill="#1e293b" stroke="#334155" />
-          <text x="155" y="123" fill="#94a3b8" fontSize="8" fontFamily="monospace" fontWeight="bold">ROVER CHASSIS BED</text>
+          <rect x="40" y="114" width="300" height="12" rx="3" fill="#e2e8f0" stroke="#cbd5e1" />
+          <text x="150" y="123" fill="#475569" fontSize="8" fontFamily="monospace" fontWeight="bold">ROVER CHASSIS BED</text>
         </svg>
       </div>
 
       {/* 4 Key Measurements Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 font-mono text-xs">
-        <div className="rounded bg-[#070a12] p-2 border border-[#1c2842]">
-          <span className="text-[10px] text-slate-400 block">Ground Movement</span>
-          <span className="text-sm font-bold text-white">
+        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
+          <span className="text-[10px] text-slate-500 block font-semibold">Ground Movement</span>
+          <span className="text-sm font-bold text-slate-900">
             {delta2 > 0 ? '+' : ''}{delta2.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-[#070a12] p-2 border border-[#1c2842]">
-          <span className="text-[10px] text-slate-400 block">Roof Convergence</span>
-          <span className="text-sm font-bold text-sky-400">
+        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
+          <span className="text-[10px] text-slate-500 block font-semibold">Roof Convergence</span>
+          <span className="text-sm font-bold text-sky-700">
             {maxDisplacement.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-[#070a12] p-2 border border-[#1c2842]">
-          <span className="text-[10px] text-slate-400 block">Differential S1-S3</span>
-          <span className="text-sm font-bold text-amber-400">
+        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
+          <span className="text-[10px] text-slate-500 block font-semibold">Differential S1-S3</span>
+          <span className="text-sm font-bold text-amber-700">
             {diffDisplacement.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-[#070a12] p-2 border border-[#1c2842]">
-          <span className="text-[10px] text-slate-400 block">Max Displacement</span>
-          <span className={`text-sm font-bold ${isWarning ? 'text-amber-400' : 'text-emerald-400'}`}>
+        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
+          <span className="text-[10px] text-slate-500 block font-semibold">Max Displacement</span>
+          <span className={`text-sm font-bold ${isWarning ? 'text-amber-700' : 'text-emerald-700'}`}>
             {maxDisplacement.toFixed(1)} cm
           </span>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRoverData } from './hooks/useRoverData';
 import { TopHeader } from './components/layout/TopHeader';
 import { Sidebar, NavSectionId } from './components/layout/Sidebar';
@@ -18,12 +18,13 @@ import { PredictiveForecastTab } from './components/dashboard/PredictiveForecast
 import { SubsidenceBasinTab } from './components/dashboard/SubsidenceBasinTab';
 import { LoadingState } from './components/common/FeedbackStates';
 import { DISCLAIMERS, PROJECT_INFO } from './utils/constants';
-import { Ruler, ShieldAlert } from 'lucide-react';
+import { Ruler, ShieldAlert, Sparkles, MapPin, Boxes, BrainCircuit, Activity, ChevronUp } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<NavSectionId>('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
 
   const {
     mode,
@@ -57,46 +58,68 @@ export const App: React.FC = () => {
 
   const activeAlertsCount = alerts.filter(a => a.status === 'ACTIVE').length;
 
+  const sectionMap: Record<NavSectionId, string> = {
+    'dashboard': 'section-dashboard',
+    'ground-monitoring': 'section-ground-monitoring',
+    'gis-map': 'section-gis-map',
+    'digital-twin': 'section-digital-twin',
+    'ai-forecast': 'section-ai-forecast',
+    'motion': 'section-motion',
+    'environment': 'section-environment',
+    'risk': 'section-risk',
+    'historical': 'section-historical',
+    'alerts': 'section-alerts',
+    'system': 'section-system'
+  };
+
   const handleSelectSection = (section: NavSectionId) => {
     setActiveSection(section);
-    if (section === 'historical' || section === 'system' || section === 'map' || section === 'predictive' || section === 'basin') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const sectionMap: Record<string, string> = {
-      dashboard: 'section-command-center',
-      displacement: 'section-ground-monitoring',
-      ultrasonic: 'section-ground-monitoring',
-      tilt: 'section-motion',
-      vibration: 'section-motion',
-      gas: 'section-environment',
-      temp: 'section-environment',
-      humidity: 'section-environment',
-      moisture: 'section-environment',
-      risk: 'section-risk',
-      alerts: 'section-system-alerts'
-    };
-
     const targetId = sectionMap[section];
     if (targetId) {
-      setTimeout(() => {
-        const el = document.getElementById(targetId);
-        if (el) {
-          const headerOffset = 88; // 72px header + 16px clearance
-          const elementPosition = el.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 50);
+      const el = document.getElementById(targetId);
+      if (el) {
+        const headerOffset = 88; // 72px header + 16px clearance
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
+  // Track active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+
+      const sections = Object.entries(sectionMap) as [NavSectionId, string][];
+      const scrollPosition = window.pageYOffset + 120;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const [sectionId, elementId] = sections[i];
+        const el = document.getElementById(elementId);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#070a12] text-slate-100 scada-grid">
+    <div className="min-h-screen bg-slate-50 text-slate-900 scada-grid-light">
       {/* 1. FIXED TOP HEADER (Exactly 72px, fixed at top) */}
       <TopHeader
         mode={mode}
@@ -124,125 +147,15 @@ export const App: React.FC = () => {
         activeAlertsCount={activeAlertsCount}
       />
 
-      {/* 3. MAIN SCROLLABLE CONTENT (Starts strictly at top: 72px, left: 240px) */}
+      {/* 3. MAIN UNIFIED SINGLE-PAGE SCROLLABLE CONTENT */}
       <main className="lg:ml-[240px] pt-[72px] min-h-screen flex flex-col justify-between">
-        <div className="p-4 sm:p-6 lg:p-8 space-y-8 max-w-[1600px] w-full mx-auto">
+        <div className="p-4 sm:p-6 lg:p-8 space-y-10 max-w-[1600px] w-full mx-auto">
           {isLoading && !currentData ? (
             <LoadingState message="Connecting to Rover Telemetry Uplink..." />
-          ) : activeSection === 'map' ? (
-            /* Dedicated GIS Geospatial Mine Map View */
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
-                <div>
-                  <h2 className="text-lg font-mono font-bold text-white uppercase">GIS Surface Mesh & Mine Map</h2>
-                  <p className="text-xs text-slate-400 font-mono">Geospatial positioning of surface mesh nodes and subsidence hazard zones</p>
-                </div>
-                <button
-                  onClick={() => setActiveSection('dashboard')}
-                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
-                >
-                  ← Return to Command Center
-                </button>
-              </div>
-              <GisMapTab
-                currentData={currentData}
-                history={history}
-                roverId={roverId}
-                isDemo={mode === 'DEMO'}
-              />
-            </div>
-          ) : activeSection === 'basin' ? (
-            /* Dedicated 3D Subsidence Basin Digital Twin View */
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
-                <div>
-                  <h2 className="text-lg font-mono font-bold text-white uppercase">3D Subsidence Basin Digital Twin</h2>
-                  <p className="text-xs text-slate-400 font-mono">Knothe empirical ground depression model & infrastructure strain impact</p>
-                </div>
-                <button
-                  onClick={() => setActiveSection('dashboard')}
-                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
-                >
-                  ← Return to Command Center
-                </button>
-              </div>
-              <SubsidenceBasinTab
-                currentData={currentData}
-                baseline={baseline}
-                roverId={roverId}
-                isDemo={mode === 'DEMO'}
-              />
-            </div>
-          ) : activeSection === 'predictive' ? (
-            /* Dedicated AI/ML Predictive Forecast View */
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
-                <div>
-                  <h2 className="text-lg font-mono font-bold text-white uppercase">AI/ML Subsidence Predictive Engine</h2>
-                  <p className="text-xs text-slate-400 font-mono">Future strata deformation trajectory projection (1h – 6h horizon)</p>
-                </div>
-                <button
-                  onClick={() => setActiveSection('dashboard')}
-                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
-                >
-                  ← Return to Command Center
-                </button>
-              </div>
-              <PredictiveForecastTab
-                history={history}
-                baseline={baseline}
-                currentData={currentData}
-                isDemo={mode === 'DEMO'}
-              />
-            </div>
-          ) : activeSection === 'historical' ? (
-            /* Dedicated Historical Data View */
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
-                <div>
-                  <h2 className="text-lg font-mono font-bold text-white uppercase">Historical Sensor Telemetry</h2>
-                  <p className="text-xs text-slate-400 font-mono">Query and analyze archived rover traverse logs</p>
-                </div>
-                <button
-                  onClick={() => setActiveSection('dashboard')}
-                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
-                >
-                  ← Return to Command Center
-                </button>
-              </div>
-              <HistoricalDataTab
-                history={history}
-                baseline={baseline}
-                activeRoverId={roverId}
-                isDemo={mode === 'DEMO'}
-              />
-            </div>
-          ) : activeSection === 'system' ? (
-            /* Dedicated System / Hardware View */
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
-                <div>
-                  <h2 className="text-lg font-mono font-bold text-white uppercase">System & Gateway Diagnostics</h2>
-                  <p className="text-xs text-slate-400 font-mono">Hardware links and cloud REST API health</p>
-                </div>
-                <button
-                  onClick={() => setActiveSection('dashboard')}
-                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
-                >
-                  ← Return to Command Center
-                </button>
-              </div>
-              <HardwareStatusTab
-                currentData={currentData}
-                roverId={roverId}
-                isDemo={mode === 'DEMO'}
-              />
-            </div>
           ) : (
-            /* Master Command Center Dashboard (Default View) */
             <>
-              {/* SECTION 1 — COMMAND CENTER */}
-              <section id="section-command-center">
+              {/* SECTION 1 — EXECUTIVE KPIS */}
+              <section id="section-dashboard" className="scroll-mt-24 space-y-3">
                 <CommandCenterKpis
                   currentData={currentData}
                   lastUpdatedTime={lastUpdatedTime}
@@ -250,45 +163,116 @@ export const App: React.FC = () => {
                 />
               </section>
 
-              {/* SECTION 2 — GROUND MONITORING (Largest Visual Section) */}
-              <section id="section-ground-monitoring" className="space-y-3">
-                <div className="flex items-center justify-between border-b border-[#1c2842] pb-2">
+              {/* SECTION 2 — 3D DIGITAL TWIN BASIN & GEOTECHNICAL MODEL */}
+              <section id="section-digital-twin" className="scroll-mt-24 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
                   <div className="flex items-center gap-2">
-                    <Ruler className="h-4 w-4 text-sky-400" />
-                    <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-200">
-                      GROUND SUBSIDENCE & ACOUSTIC CONVERGENCE
+                    <div className="p-1 rounded bg-amber-50 text-amber-600 border border-amber-100">
+                      <Boxes className="h-4 w-4" />
+                    </div>
+                    <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900">
+                      3D SUBSIDENCE BASIN DIGITAL TWIN & GEOTECHNICAL IMPACT
                     </h3>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400">
-                    Baseline Clearance: 22.0 cm
+                  <span className="text-[11px] font-mono text-slate-500 font-semibold">
+                    Knothe-Budryk Theory • MPU6050 Slope • Radius: 56m
+                  </span>
+                </div>
+                <SubsidenceBasinTab
+                  currentData={currentData}
+                  baseline={baseline}
+                  roverId={roverId}
+                  isDemo={mode === 'DEMO'}
+                />
+              </section>
+
+              {/* SECTION 3 — GIS SURFACE MESH & MINE MAP */}
+              <section id="section-gis-map" className="scroll-mt-24 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1 rounded bg-sky-50 text-sky-600 border border-sky-100">
+                      <MapPin className="h-4 w-4" />
+                    </div>
+                    <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900">
+                      GEOSPATIAL SURFACE MESH & MINE SUBSIDENCE MAP
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-slate-500 font-semibold">
+                    GPS Fix Active • Panel P-4B Jharia Sector
+                  </span>
+                </div>
+                <GisMapTab
+                  currentData={currentData}
+                  history={history}
+                  roverId={roverId}
+                  isDemo={mode === 'DEMO'}
+                />
+              </section>
+
+              {/* SECTION 4 — AI/ML SUBSIDENCE PREDICTIVE ENGINE */}
+              <section id="section-ai-forecast" className="scroll-mt-24 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1 rounded bg-amber-50 text-amber-600 border border-amber-100">
+                      <BrainCircuit className="h-4 w-4" />
+                    </div>
+                    <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900">
+                      AI/ML SUBSIDENCE TRAJECTORY & EARLY WARNING ENGINE
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-slate-500 font-semibold">
+                    Polynomial Autoregressive Model • +1h to +6h Horizon
+                  </span>
+                </div>
+                <PredictiveForecastTab
+                  history={history}
+                  baseline={baseline}
+                  currentData={currentData}
+                  isDemo={mode === 'DEMO'}
+                />
+              </section>
+
+              {/* SECTION 5 — GROUND SUBSIDENCE & ACOUSTIC CONVERGENCE */}
+              <section id="section-ground-monitoring" className="scroll-mt-24 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1 rounded bg-sky-50 text-sky-600 border border-sky-100">
+                      <Ruler className="h-4 w-4" />
+                    </div>
+                    <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900">
+                      GROUND SUBSIDENCE & ACOUSTIC CONVERGENCE (HC-SR04 ARRAY)
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-slate-500 font-semibold">
+                    Baseline Roof Clearance: 22.0 cm
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                  {/* Left: Large Engineering Ground Displacement Chart (7 cols) */}
-                  <div className="xl:col-span-7 rounded-xl border border-[#1c2842] bg-[#10192d] p-5 shadow-sm flex flex-col justify-between">
-                    <div className="flex flex-wrap items-center justify-between border-b border-[#1c2842] pb-3 mb-3 gap-2">
+                  {/* Left: Ground Displacement Chart (7 cols) */}
+                  <div className="xl:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
+                    <div className="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 mb-3 gap-2">
                       <div>
-                        <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+                        <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900">
                           Ground Displacement Over Time (cm)
                         </h4>
-                        <p className="text-[11px] font-mono text-slate-400">
+                        <p className="text-[11px] font-mono text-slate-500">
                           Superimposed Ultrasonic Sensors (S1 Port, S2 Center, S3 Starboard)
                         </p>
                       </div>
-                      <div className="flex items-center gap-3 text-[11px] font-mono">
-                        <span className="text-sky-400 font-bold">● S1</span>
-                        <span className="text-amber-400 font-bold">● S2</span>
-                        <span className="text-emerald-400 font-bold">● S3</span>
+                      <div className="flex items-center gap-3 text-[11px] font-mono font-bold">
+                        <span className="text-sky-700">● S1</span>
+                        <span className="text-amber-700">● S2</span>
+                        <span className="text-emerald-700">● S3</span>
                       </div>
                     </div>
 
                     <TimeSeriesLineChart
                       data={history}
                       series={[
-                        { key: 'distance_1', name: 'S1 (Left)', color: '#38bdf8', unit: 'cm' },
-                        { key: 'distance_2', name: 'S2 (Center)', color: '#f59e0b', unit: 'cm' },
-                        { key: 'distance_3', name: 'S3 (Right)', color: '#10b981', unit: 'cm' }
+                        { key: 'distance_1', name: 'S1 (Left)', color: '#0284c7', unit: 'cm' },
+                        { key: 'distance_2', name: 'S2 (Center)', color: '#d97706', unit: 'cm' },
+                        { key: 'distance_3', name: 'S3 (Right)', color: '#059669', unit: 'cm' }
                       ]}
                       height={240}
                       yAxisLabel="Distance (cm)"
@@ -298,7 +282,7 @@ export const App: React.FC = () => {
                       criticalLabel="Critical Sag (16cm)"
                     />
 
-                    <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-[#1c2842] pt-2 flex items-center justify-between">
+                    <div className="mt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100 pt-2 flex items-center justify-between font-medium">
                       <span>Rate Limit: 1.5 cm/min</span>
                       <span>Prototype rule threshold</span>
                     </div>
@@ -320,8 +304,8 @@ export const App: React.FC = () => {
                 </div>
               </section>
 
-              {/* SECTION 3 — MOTION & STRUCTURAL HEALTH */}
-              <section id="section-motion" className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* SECTION 6 — MOTION & STRUCTURAL HEALTH */}
+              <section id="section-motion" className="scroll-mt-24 grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Left: Rover Orientation (Inclinometer) */}
                 <ArtificialHorizon
                   tiltX={currentData?.tilt_x ?? 0.9}
@@ -335,12 +319,15 @@ export const App: React.FC = () => {
                 />
               </section>
 
-              {/* SECTION 4 — ENVIRONMENTAL MONITORING */}
-              <section id="section-environment" className="space-y-3">
-                <div className="border-b border-[#1c2842] pb-2">
-                  <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-200">
+              {/* SECTION 7 — ENVIRONMENTAL TELEMETRY */}
+              <section id="section-environment" className="scroll-mt-24 space-y-3">
+                <div className="border-b border-slate-200 pb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900">
                     ATMOSPHERIC & ENVIRONMENTAL TELEMETRY
                   </h3>
+                  <span className="text-[11px] font-mono text-slate-500 font-semibold">
+                    MQ Gas Sensor • DHT11 Temperature & Humidity
+                  </span>
                 </div>
                 <EnvironmentalRow
                   currentData={currentData}
@@ -349,34 +336,64 @@ export const App: React.FC = () => {
                 />
               </section>
 
-              {/* SECTION 5 — RISK ANALYSIS */}
-              <section id="section-risk">
+              {/* SECTION 8 — MULTI-FACTOR STRUCTURAL RISK */}
+              <section id="section-risk" className="scroll-mt-24">
                 <RiskGauge risk={riskAnalysis} />
               </section>
 
-              {/* SECTION 6 & 7 — SYSTEM HEALTH & ALERTS */}
-              <section id="section-system-alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* SECTION 9 — HISTORICAL SENSOR DATA EXPLORER */}
+              <section id="section-historical" className="scroll-mt-24 space-y-3">
+                <HistoricalDataTab
+                  history={history}
+                  baseline={baseline}
+                  activeRoverId={roverId}
+                  isDemo={mode === 'DEMO'}
+                />
+              </section>
+
+              {/* SECTION 10 & 11 — ACTIVE SAFETY ALERTS & SYSTEM HEALTH */}
+              <section id="section-alerts" className="scroll-mt-24">
+                <AlertsPanel
+                  alerts={alerts}
+                  onAcknowledgeAlert={acknowledgeAlert}
+                />
+              </section>
+
+              <section id="section-system" className="scroll-mt-24 space-y-6">
                 <SystemHealthPanel
                   connectionHealth={connectionHealth}
                   lastUpdatedTime={lastUpdatedTime}
                 />
-                <AlertsPanel
-                  alerts={alerts}
-                  onAcknowledgeAlert={acknowledgeAlert}
+                <HardwareStatusTab
+                  currentData={currentData}
+                  roverId={roverId}
+                  isDemo={mode === 'DEMO'}
                 />
               </section>
             </>
           )}
         </div>
 
-        {/* Footer (Always clean, inside main, below all sections) */}
-        <footer className="mt-8 border-t border-[#1c2842] bg-[#0c1222] py-4 px-6 text-center text-xs font-mono text-slate-500">
+        {/* Scroll To Top Quick Button */}
+        {showScrollTop && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-6 right-6 z-50 rounded-full bg-slate-900 text-white p-3 shadow-lg hover:bg-slate-800 transition-all flex items-center gap-1.5 font-mono text-xs"
+            title="Scroll to Top"
+          >
+            <ChevronUp className="h-4 w-4 text-amber-400" />
+            <span className="hidden sm:inline">Top</span>
+          </button>
+        )}
+
+        {/* Footer */}
+        <footer className="mt-12 border-t border-slate-200 bg-white py-5 px-6 text-center text-xs font-mono text-slate-500 shadow-inner">
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <span className="text-slate-300 font-bold">{PROJECT_INFO.name}</span>
+            <span className="text-slate-900 font-bold">{PROJECT_INFO.name}</span>
             <span>•</span>
-            <span className="text-amber-400">{PROJECT_INFO.hackathonId} Prototype</span>
+            <span className="text-amber-700 font-bold">{PROJECT_INFO.hackathonId} Unified System</span>
             <span>•</span>
-            <span>{DISCLAIMERS.prototypeRules}</span>
+            <span className="text-slate-600">{DISCLAIMERS.prototypeRules}</span>
           </div>
         </footer>
       </main>

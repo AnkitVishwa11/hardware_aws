@@ -47,20 +47,20 @@ export const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-lg border border-slate-700 bg-industrial-950 p-2.5 shadow-xl font-mono text-xs">
-          <div className="text-slate-400 mb-1 border-b border-slate-800 pb-1">
+        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-lg font-mono text-xs z-50">
+          <div className="text-slate-500 mb-1.5 border-b border-slate-100 pb-1 font-semibold">
             Time: {formatTimeOnly(label)}
           </div>
           {payload.map((entry: any, index: number) => {
             const seriesConfig = series.find(s => s.key === entry.dataKey);
             const val = entry.value !== null && entry.value !== undefined ? entry.value : 'N/A';
             return (
-              <div key={index} className="flex items-center justify-between gap-3 py-0.5">
-                <span className="flex items-center gap-1.5" style={{ color: entry.color }}>
+              <div key={index} className="flex items-center justify-between gap-4 py-0.5">
+                <span className="flex items-center gap-1.5 font-medium" style={{ color: entry.color }}>
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
                   {entry.name}:
                 </span>
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900">
                   {typeof val === 'number' ? val.toFixed(2) : val} {seriesConfig?.unit || ''}
                 </span>
               </div>
@@ -76,17 +76,17 @@ export const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({
     <div className="w-full" style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.7} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.8} />
           <XAxis
             dataKey="timestamp"
             tickFormatter={(time) => formatTimeOnly(time)}
-            stroke="#64748b"
+            stroke="#94a3b8"
             tick={{ fontSize: 11, fill: '#64748b' }}
             minTickGap={40}
           />
           <YAxis
             domain={yDomain || ['auto', 'auto']}
-            stroke="#64748b"
+            stroke="#94a3b8"
             tick={{ fontSize: 11, fill: '#64748b' }}
             label={
               yAxisLabel
@@ -99,19 +99,19 @@ export const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({
             verticalAlign="top"
             align="right"
             iconType="circle"
-            wrapperStyle={{ fontSize: '11px', paddingBottom: '10px' }}
+            wrapperStyle={{ fontSize: '11px', paddingBottom: '10px', color: '#475569' }}
           />
 
           {/* Reference Threshold Lines */}
           {warningThreshold !== undefined && (
             <ReferenceLine
               y={warningThreshold}
-              stroke="#f59e0b"
+              stroke="#d97706"
               strokeDasharray="4 4"
               strokeWidth={1.5}
               label={{
                 value: warningLabel,
-                fill: '#f59e0b',
+                fill: '#b45309',
                 fontSize: 10,
                 position: 'insideTopRight'
               }}
@@ -120,12 +120,12 @@ export const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({
           {criticalThreshold !== undefined && (
             <ReferenceLine
               y={criticalThreshold}
-              stroke="#ef4444"
+              stroke="#dc2626"
               strokeDasharray="4 4"
               strokeWidth={1.5}
               label={{
                 value: criticalLabel,
-                fill: '#ef4444',
+                fill: '#b91c1c',
                 fontSize: 10,
                 position: 'insideTopRight'
               }}
@@ -139,10 +139,10 @@ export const TimeSeriesLineChart: React.FC<TimeSeriesLineChartProps> = ({
               dataKey={s.key}
               name={s.name}
               stroke={s.color}
-              strokeWidth={2}
+              strokeWidth={2.2}
               strokeDasharray={s.dashed ? '4 4' : undefined}
               dot={false}
-              activeDot={{ r: 4, fill: s.color, stroke: '#0f172a', strokeWidth: 2 }}
+              activeDot={{ r: 4.5, fill: s.color, stroke: '#ffffff', strokeWidth: 2 }}
               isAnimationActive={false}
             />
           ))}
