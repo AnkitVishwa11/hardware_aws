@@ -8,7 +8,7 @@ import {
 } from '../types/api';
 
 // Configurable API Base URL from environment variables
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.minesafe-rover.sih26025.internal';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.subsentry-rover.sih26025.internal';
 
 class ApiService {
   private baseUrl: string;

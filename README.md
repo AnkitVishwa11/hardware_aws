@@ -1,4 +1,4 @@
-# MineSafe Rover – Real-Time Mine Subsidence & Environmental Monitoring System
+# SubSentry Rover – Real-Time Mine Subsidence & Environmental Monitoring System
 **Smart India Hackathon Prototype – Problem Statement SIH26025**
 
 A professional, responsive industrial IoT web dashboard for monitoring underground mine subsidence, rock convergence, vibration, tilt, atmospheric gas, and environmental metrics collected by an autonomous mobile rover.
@@ -6,7 +6,7 @@ A professional, responsive industrial IoT web dashboard for monitoring undergrou
 ---
 
 ## 📌 Project Overview
-Underground mine collapses and roof convergence pose life-threatening hazards to mining personnel. The **MineSafe Rover** system utilizes a mobile inspection rover to traverse underground mine haulage drifts and stopes, collecting ground-condition, motion, vibration, and atmospheric sensor telemetry.
+Underground mine collapses and roof convergence pose life-threatening hazards to mining personnel. The **SubSentry Rover** system utilizes a mobile inspection rover to traverse underground mine haulage drifts and stopes, collecting ground-condition, motion, vibration, and atmospheric sensor telemetry.
 
 - **Rover Sensor Node (Arduino Uno)**: Collects readings from 3 × ultrasonic distance sensors, 6-DOF IMU (MPU6050), analog gas sensor, and DHT11 temperature/humidity probe.
 - **Wireless Gateway (ESP32)**: Receives structured JSON packets from the Arduino Uno via a logic-level protected one-way UART link and uploads them to an AWS-hosted backend via HTTPS POST.
@@ -46,7 +46,7 @@ Underground mine collapses and roof convergence pose life-threatening hazards to
 |  • Performs HTTPS POST payload upload to AWS Backend        |
 +------------------------------+------------------------------+
                                |
-                       HTTPS REST / Wi-Fi
+                        HTTPS REST / Wi-Fi
                                v
 +-------------------------------------------------------------+
 |                     AWS HOSTED BACKEND                      |
@@ -59,10 +59,10 @@ Underground mine collapses and roof convergence pose life-threatening hazards to
 |  • GET  /api/analytics     (Aggregated statistics)          |
 +------------------------------+------------------------------+
                                |
-                         HTTPS REST API
+                          HTTPS REST API
                                v
 +-------------------------------------------------------------+
-|                MINESAFE ROVER WEB DASHBOARD                 |
+|                SUBSENTRY ROVER WEB DASHBOARD                |
 |                   (React + TypeScript + Vite)               |
 +-------------------------------------------------------------+
 ```
@@ -174,7 +174,7 @@ The dashboard features a persistent mode switcher in the top navigation bar:
 ### Setup & Installation
 ```bash
 # Clone or open the repository directory
-cd hardware_iot
+cd hardware_aws
 
 # Install dependencies
 npm install
@@ -191,7 +191,7 @@ The application will be accessible at `http://localhost:5173`.
 ### Environment Configuration (`.env`)
 ```env
 # AWS-hosted REST API base URL
-VITE_API_BASE_URL=https://api.minesafe-rover.sih26025.internal
+VITE_API_BASE_URL=https://api.subsentry-rover.sih26025.internal
 
 # Polling interval in ms (default: 5000)
 VITE_POLL_INTERVAL_MS=5000
@@ -212,7 +212,7 @@ npm run build
 
 ## ☁️ Deploying to Vercel (Team Review)
 
-The project includes a ready-to-use [`vercel.json`](file:///c:/Users/Ankit/Music/hardware_iot/vercel.json) file configured for Vite SPA routing and asset caching.
+The project includes a ready-to-use [`vercel.json`](file:///c:/Users/LOQ/Desktop/hardware_aws/vercel.json) file configured for Vite SPA routing and asset caching.
 
 ### Option 1: Deploy via Vercel CLI
 ```bash

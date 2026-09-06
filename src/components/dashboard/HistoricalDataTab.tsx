@@ -71,7 +71,7 @@ export const HistoricalDataTab: React.FC<HistoricalDataTabProps> = ({
   const handleExportCsv = () => {
     exportSensorDataToCsv(
       filteredData,
-      `minesafe_historical_${selectedRover}_${new Date().toISOString().slice(0, 10)}.csv`
+      `subsentry_historical_${selectedRover}_${new Date().toISOString().slice(0, 10)}.csv`
     );
   };
 

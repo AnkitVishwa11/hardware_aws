@@ -37,7 +37,7 @@
 ## 🐳 Docker Stack on AWS EC2
 
 ### 1. `docker-compose.yml`
-Save this on your EC2 instance (`/home/ubuntu/minesafe-backend/docker-compose.yml`):
+Save this on your EC2 instance (`/home/ubuntu/subsentry-backend/docker-compose.yml`):
 
 ```yaml
 version: '3.8'
@@ -46,40 +46,39 @@ services:
   # PostgreSQL Database Container
   postgres-db:
     image: postgres:15-alpine
-    container_name: minesafe_postgres
+    container_name: subsentry_postgres
     restart: always
     environment:
-      POSTGRES_DB: minesafe_db
-      POSTGRES_USER: minesafe_user
+      POSTGRES_DB: subsentry_db
+      POSTGRES_USER: subsentry_user
       POSTGRES_PASSWORD: secure_password_here
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - minesafe-net
+      - subsentry-net
 
-  # REST API Backend Container (Node.js / Express or FastAPI)
-  api-backend:
+  # Express.js REST API Backend Container
+  backend-api:
     build: .
-    container_name: minesafe_api
+    container_name: subsentry_api
     restart: always
     environment:
-      DATABASE_URL: postgresql://minesafe_user:secure_password_here@postgres-db:5432/minesafe_db
       PORT: 5000
+      DATABASE_URL: postgresql://subsentry_user:secure_password_here@postgres-db:5432/subsentry_db
     ports:
       - "5000:5000"
     depends_on:
       - postgres-db
     networks:
-      - minesafe-net
+      - subsentry-net
 
 volumes:
   pgdata:
 
 networks:
-  minesafe-net:
+  subsentry-net:
     driver: bridge
 ```
 
@@ -145,7 +144,7 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://minesafe_user:secure_password_here@postgres-db:5432/minesafe_db'
+  connectionString: process.env.DATABASE_URL || 'postgresql://subsentry_user:secure_password_here@postgres-db:5432/subsentry_db'
 });
 
 // ==========================================
@@ -264,8 +263,8 @@ app.get('/api/devices', async (req, res) => {
     data: [
       {
         id: 'ROVER_01',
-        name: 'MineSafe Alpha-1',
-        model: 'MS-RVR-V2',
+        name: 'SubSentry Alpha-1',
+        model: 'SS-RVR-V2',
         firmware: 'v2.4.1',
         gateway_type: 'ESP32',
         sensor_node: 'Arduino Uno',
@@ -281,7 +280,7 @@ app.get('/api/devices', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`MineSafe API Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`SubSentry API Server running on port ${PORT}`));
 ```
 
 ---

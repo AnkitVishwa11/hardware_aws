@@ -4,7 +4,7 @@ export type Theme = 'dark' | 'light';
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('minesafe_theme');
+    const saved = localStorage.getItem('subsentry_theme') || localStorage.getItem('minesafe_theme');
     return (saved as Theme) || 'dark';
   });
 
@@ -17,7 +17,7 @@ export function useTheme() {
       root.classList.add('light');
       root.classList.remove('dark');
     }
-    localStorage.setItem('minesafe_theme', theme);
+    localStorage.setItem('subsentry_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

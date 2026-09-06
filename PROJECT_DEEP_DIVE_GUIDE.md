@@ -1,4 +1,4 @@
-# ⛏️ MineSafe — AI-Enabled Low-Cost Real-Time Mine Subsidence Monitoring & Early Warning System
+# ⛏️ SubSentry — AI-Enabled Low-Cost Real-Time Mine Subsidence Monitoring & Early Warning System
 ### Problem Statement: SIH26025 (Underground Coal Mines in India)
 
 ---
@@ -39,7 +39,7 @@ When coal is extracted, massive empty voids (called *goaf*) are created undergro
 
 ## 💡 2. The Innovation Hook: Why Traditional Systems Fail & What Makes This Unique
 
-| Traditional Methods | Why They Fail | **MineSafe Solution** |
+| Traditional Methods | Why They Fail | **SubSentry Solution** |
 | :--- | :--- | :--- |
 | **Manual Surveying (Total Stations / Levelling Pegs)** | Requires manual surveyor visits; cannot detect sudden overnight collapses. | **Continuous 24/7 Automated IoT Telemetry**. |
 | **Satellite InSAR Radar** | Revisit time is days to weeks; zero underground visibility; weather & cloud interference. | **Real-time Surface Wireless Mesh + Underground Mobile Rover Node**. |
@@ -50,7 +50,7 @@ When coal is extracted, massive empty voids (called *goaf*) are created undergro
 
 ## 📊 3. Deep Dive: Every Graph, Visual & Sensor Explained
 
-Here is the exhaustive analysis of every component in the **MineSafe SCADA Dashboard**, why it was chosen, how it works, and its mathematical significance:
+Here is the exhaustive analysis of every component in the **SubSentry SCADA Dashboard**, why it was chosen, how it works, and its mathematical significance:
 
 ```
 +----------------------------------------------------------------------------------------------------+

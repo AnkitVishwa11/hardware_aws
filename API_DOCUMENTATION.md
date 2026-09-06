@@ -1,6 +1,6 @@
-# 🛰️ MineSafe Rover SCADA Dashboard — API Documentation (AWS EC2 + Docker + PostgreSQL)
+# 🛰️ SubSentry Rover SCADA Dashboard — API Documentation (AWS EC2 + Docker + PostgreSQL)
 
-This document provides the REST API contracts, database schemas, and integration flows for the **MineSafe Rover SCADA Monitoring System** hosted on **AWS EC2 via Docker Containers (PostgreSQL & Node.js/FastAPI API Service)**.
+This document provides the REST API contracts, database schemas, and integration flows for the **SubSentry Rover SCADA Monitoring System** hosted on **AWS EC2 via Docker Containers (PostgreSQL & Node.js/FastAPI API Service)**.
 
 ---
 
@@ -222,7 +222,7 @@ List active rovers and network connection metrics.
   "data": [
     {
       "id": "ROVER_01",
-      "name": "MineSafe Alpha-1",
+      "name": "SubSentry Alpha-1",
       "model": "MS-RVR-V2",
       "firmware": "v2.4.1",
       "gateway_type": "ESP32",

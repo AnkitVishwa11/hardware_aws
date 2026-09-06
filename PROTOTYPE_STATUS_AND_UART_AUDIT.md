@@ -1,4 +1,4 @@
-# 🛠️ MineSafe Prototype Status & UART Flow Audit
+# 🛠️ SubSentry Prototype Status & UART Flow Audit
 ### Working Hardware Architecture: Arduino Uno ➔ UART (RX/TX) ➔ ESP32 ➔ EC2 Docker ➔ React SCADA Dashboard
 
 ---

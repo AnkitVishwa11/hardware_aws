@@ -1,5 +1,5 @@
-# 🛰️ MINESAFE (SIH26025) — MVP DOCUMENTATION
-**Project Title:** MineSafe: IoT & AI-Powered Real-Time SCADA Digital Twin for Underground Mine Subsidence Monitoring  
+# 🛰️ SUBSENTRY (SIH26025) — MVP DOCUMENTATION
+**Project Title:** SubSentry: IoT & AI-Powered Real-Time SCADA Digital Twin for Underground Mine Subsidence Monitoring  
 **Target Domain:** Underground Mining Safety, Geotechnical IoT & Disaster Prevention  
 **Compliance Standard:** DGMS (Directorate General of Mines Safety) India Guidelines  
 
@@ -15,14 +15,14 @@ Traditional monitoring methods rely on manual surveying and static extensometers
 - ❌ **Dangerous for miners:** Surveyors must enter hazardous, uncompacted underground zones.
 - ❌ **Lack predictive intelligence:** Cannot forecast subsidence trajectories before structural failure occurs.
 
-### The MineSafe Solution:
-**MineSafe** is an autonomous rover-based IoT SCADA system coupled with a cloud digital twin that provides continuous, millimetre-level ground sag tracking, 6-axis tilt orientation, seismic vibration micro-crack detection, and toxic gas monitoring with real-time AI predictive forecasting.
+### The SubSentry Solution:
+**SubSentry** is an autonomous rover-based IoT SCADA system coupled with a cloud digital twin that provides continuous, millimetre-level ground sag tracking, 6-axis tilt orientation, seismic vibration micro-crack detection, and toxic gas monitoring with real-time AI predictive forecasting.
 
 ---
 
 ## 2. 🎯 What is the MVP (Minimum Viable Product)?
 
-The **MineSafe MVP** is a fully functional, end-to-end hardware-to-cloud SCADA pipeline demonstrating:
+The **SubSentry MVP** is a fully functional, end-to-end hardware-to-cloud SCADA pipeline demonstrating:
 1. **Multi-Sensor Telemetry:** Live collection of ground displacement, inclination, vibration, and gas levels.
 2. **Edge-to-Cloud Gateway:** UART serial stream from Arduino Uno converted and pushed over Wi-Fi via ESP32 to AWS Cloud / REST API.
 3. **Real-Time SCADA Command Center:** High-performance dashboard with instant telemetry feeds, visual schematics, and audio-visual alarms.
@@ -109,7 +109,7 @@ Calculates composite risk score based on multi-factor thresholds:
 ## 6. 🎤 Hackathon & Pitch Presentation Guide
 
 ### 30-Second Elevator Pitch:
-> *"Every year, underground coal mines face unexpected roof falls and surface subsidence that threaten human lives and critical infrastructure. MineSafe is an autonomous IoT rover and real-time SCADA digital twin that uses multi-sensor telemetry, Knothe-Budryk geotechnical modeling, and predictive AI to detect, visualize, and forecast mine subsidence before catastrophic collapse occurs."*
+> *"Every year, underground coal mines face unexpected roof falls and surface subsidence that threaten human lives and critical infrastructure. SubSentry is an autonomous IoT rover and real-time SCADA digital twin that uses multi-sensor telemetry, Knothe-Budryk geotechnical modeling, and predictive AI to detect, visualize, and forecast mine subsidence before catastrophic collapse occurs."*
 
 ### Suggested 3-Minute Live Demo Flow:
 1. **Introduction (30s):** Open the SCADA Command Center in full screen. Show the live telemetry KPIs updating in real-time.
@@ -128,4 +128,4 @@ Calculates composite risk score based on multi-factor thresholds:
 
 ---
 **Repository:** `hardware_aws`  
-**Author:** MineSafe Engineering Team (SIH26025)
+**Author:** SubSentry Engineering Team (SIH26025)

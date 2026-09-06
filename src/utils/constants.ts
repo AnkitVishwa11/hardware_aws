@@ -3,7 +3,7 @@
  */
 
 export const PROJECT_INFO = {
-  name: "MineSafe Rover",
+  name: "SubSentry Rover",
   subtitle: "Real-Time Mine Subsidence & Environmental Monitoring System",
   hackathonId: "SIH26025",
   competition: "Smart India Hackathon",
@@ -80,6 +80,6 @@ export const STATIONARY_POINTS = [
 ];
 
 export const AVAILABLE_ROVERS = [
-  { id: 'ROVER_01', name: 'MineSafe Rover Alpha (Primary)', status: 'online' },
-  { id: 'ROVER_02', name: 'MineSafe Rover Beta (Standby Unit)', status: 'offline' }
+  { id: 'ROVER_01', name: 'SubSentry Rover Alpha (Primary)', status: 'online' },
+  { id: 'ROVER_02', name: 'SubSentry Rover Beta (Standby Unit)', status: 'offline' }
 ];

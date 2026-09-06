@@ -102,7 +102,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <div className="leading-tight">
               <div className="flex items-center gap-1.5">
                 <span className="font-mono text-sm font-extrabold tracking-wider text-slate-900">
-                  MINESAFE
+                  SUBSENTRY
                 </span>
                 <span className="rounded bg-amber-100 px-1 py-0.2 font-mono text-[9px] font-bold uppercase tracking-wider text-amber-800 border border-amber-300">
                   SIH26025

@@ -1,4 +1,4 @@
-# 📋 Feature Audit & Gap Analysis: MineSafe System
+# 📋 Feature Audit & Gap Analysis: SubSentry System
 ### Comparing SIH26025 Requirements vs Working System Implementation
 
 ---
@@ -72,7 +72,7 @@
    - `04_historical_sensor_telemetry.png`
    - `05_hardware_gateway_diagnostics.png`
    - `06_3d_subsidence_basin_digital_twin.png`
-   - `minesafe_telemetry_results.csv`
+   - `subsentry_telemetry_results.csv`
 
 ---
 

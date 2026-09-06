@@ -1,5 +1,5 @@
 /**
- * Core Sensor Data Model for MineSafe Rover
+ * Core Sensor Data Model for SubSentry Rover
  * Matches the incoming payload from ESP32 gateway -> AWS HTTPS REST API
  */
 export interface SensorData {

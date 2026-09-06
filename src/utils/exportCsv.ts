@@ -62,7 +62,7 @@ export function exportSensorDataToCsv(records: SensorData[], filename?: string):
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  const actualFilename = filename || `minesafe_rover_telemetry_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '_')}.csv`;
+  const actualFilename = filename || `subsentry_rover_telemetry_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '_')}.csv`;
   link.setAttribute('href', url);
   link.setAttribute('download', actualFilename);
   document.body.appendChild(link);
