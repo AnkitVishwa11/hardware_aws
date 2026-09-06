@@ -16,13 +16,15 @@ import {
   ChevronRight,
   MapPin,
   BrainCircuit,
-  Boxes
+  Boxes,
+  Users
 } from 'lucide-react';
 
 export type NavSectionId = 
   | 'dashboard'
   | 'ground-monitoring'
   | 'gis-map'
+  | 'fleet-swarm'
   | 'digital-twin'
   | 'ai-forecast'
   | 'motion'
@@ -63,7 +65,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { id: 'dashboard', label: 'Executive KPIs', icon: LayoutDashboard },
         { id: 'ground-monitoring', label: 'Ground Profile & Sag', icon: Ruler },
-        { id: 'gis-map', label: 'GIS Mine Mesh Map', icon: MapPin }
+        { id: 'gis-map', label: 'GIS Mine Mesh Map', icon: MapPin },
+        { id: 'fleet-swarm', label: 'Fleet Swarm & Sync', icon: Users }
       ]
     },
     {

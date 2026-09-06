@@ -15,7 +15,8 @@ import {
   Satellite,
   ShieldCheck,
   ShieldAlert,
-  AlertTriangle
+  AlertTriangle,
+  FileText
 } from 'lucide-react';
 
 export interface TopHeaderProps {
@@ -33,6 +34,7 @@ export interface TopHeaderProps {
   onToggleMobileSidebar: () => void;
   demoScenario: DemoScenario;
   onSelectDemoScenario: (s: DemoScenario) => void;
+  onOpenDgmsReport?: () => void;
 }
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
@@ -49,7 +51,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   isRefreshing,
   onToggleMobileSidebar,
   demoScenario,
-  onSelectDemoScenario
+  onSelectDemoScenario,
+  onOpenDgmsReport
 }) => {
   const [showMobileControls, setShowMobileControls] = useState(false);
 
@@ -227,6 +230,18 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <option value={5000}>5s Polling</option>
             <option value={10000}>10s Polling</option>
           </select>
+
+          {/* DGMS Safety Audit Report Button */}
+          {onOpenDgmsReport && (
+            <button
+              onClick={onOpenDgmsReport}
+              className="flex items-center gap-1 rounded-md border border-amber-300 bg-amber-50/80 px-2 py-1 text-xs font-mono font-bold text-amber-900 hover:bg-amber-100 transition-colors shadow-2xs cursor-pointer"
+              title="Generate Official DGMS Safety Audit Report"
+            >
+              <FileText className="h-3.5 w-3.5 text-amber-700" />
+              <span className="hidden sm:inline">DGMS Report</span>
+            </button>
+          )}
 
           {/* Force Refresh Button */}
           <button

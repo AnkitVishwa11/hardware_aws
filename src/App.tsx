@@ -16,15 +16,18 @@ import { HardwareStatusTab } from './components/dashboard/HardwareStatusTab';
 import { GisMapTab } from './components/dashboard/GisMapTab';
 import { PredictiveForecastTab } from './components/dashboard/PredictiveForecastTab';
 import { SubsidenceBasinTab } from './components/dashboard/SubsidenceBasinTab';
+import { FleetSwarmTab } from './components/dashboard/FleetSwarmTab';
+import { DgmsReportModal } from './components/reports/DgmsReportModal';
 import { LoadingState } from './components/common/FeedbackStates';
 import { DISCLAIMERS, PROJECT_INFO } from './utils/constants';
-import { Ruler, ShieldAlert, Sparkles, MapPin, Boxes, BrainCircuit, Activity, ChevronUp } from 'lucide-react';
+import { Ruler, ShieldAlert, Sparkles, MapPin, Boxes, BrainCircuit, Activity, ChevronUp, Users } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<NavSectionId>('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  const [isDgmsReportOpen, setIsDgmsReportOpen] = useState<boolean>(false);
 
   const {
     mode,
@@ -62,6 +65,7 @@ export const App: React.FC = () => {
     'dashboard': 'section-dashboard',
     'ground-monitoring': 'section-ground-monitoring',
     'gis-map': 'section-gis-map',
+    'fleet-swarm': 'section-fleet-swarm',
     'digital-twin': 'section-digital-twin',
     'ai-forecast': 'section-ai-forecast',
     'motion': 'section-motion',
@@ -136,6 +140,7 @@ export const App: React.FC = () => {
         onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
         demoScenario={demoScenario}
         onSelectDemoScenario={setDemoScenario}
+        onOpenDgmsReport={() => setIsDgmsReportOpen(true)}
       />
 
       {/* 2. FIXED LEFT SIDEBAR (220px, top: 56px) */}
@@ -163,7 +168,16 @@ export const App: React.FC = () => {
                 />
               </section>
 
-              {/* SECTION 2 — 3D DIGITAL TWIN BASIN & GEOTECHNICAL MODEL */}
+              {/* SECTION 2 — MULTI-ROVER SWARM FLEET & DUAL-PANEL SYNC */}
+              <section id="section-fleet-swarm" className="scroll-mt-20 space-y-2.5">
+                <FleetSwarmTab
+                  primaryRoverData={currentData}
+                  onSelectRover={setRoverId}
+                  activeRoverId={roverId}
+                />
+              </section>
+
+              {/* SECTION 3 — 3D DIGITAL TWIN BASIN & GEOTECHNICAL MODEL */}
               <section id="section-digital-twin" className="scroll-mt-20 space-y-2.5">
                 <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
                   <div className="flex items-center gap-2">
@@ -396,6 +410,15 @@ export const App: React.FC = () => {
             <span className="text-slate-600">{DISCLAIMERS.prototypeRules}</span>
           </div>
         </footer>
+
+        {/* DGMS Statutory Safety Audit Report Modal */}
+        <DgmsReportModal
+          isOpen={isDgmsReportOpen}
+          onClose={() => setIsDgmsReportOpen(false)}
+          currentData={currentData}
+          history={history}
+          selectedRover={roverId}
+        />
       </main>
     </div>
   );

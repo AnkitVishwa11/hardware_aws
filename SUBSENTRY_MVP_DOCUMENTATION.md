@@ -77,15 +77,20 @@ Calculates composite risk score based on multi-factor thresholds:
 - **Class III (High Hazard):** Evacuation advisory triggered, visual flashing alerts.
 - **Class IV (Critical Subsidence):** Immediate danger of roof collapse; audible klaxon alert & siren.
 
-### C. 🌟 Killer USPs (Differentiators)
-1. **3D Subsidence Basin Digital Twin:**
+### C. 🌟 Killer USPs & Advanced Industry Features (Differentiators)
+1. **Multi-Rover Swarm Fleet & Dual-Panel Synchronization:**
+   - Real-time simultaneous tracking of multiple rover units (`ROVER_01` in Longwall Panel P-4B vs `ROVER_02` in Depillaring Panel P-2A).
+   - Dynamic Cross-Panel Geotechnical Variance Matrix measuring $\Delta\text{Sag}$ differential gap, slope variance, and multi-node LoRa mesh routing.
+2. **1-Click DGMS Statutory Safety Audit Report Generator (Tech Form IV-A):**
+   - Government/DGMS-standard printable PDF report generator with automated parameter compliance verification, statutory risk classification, engineering directives checklist, and digital officer sign-off stamps.
+3. **3D Subsidence Basin Digital Twin:**
    - Implements the empirical **Knothe-Budryk ground depression curve**:
      $$S(x) = S_{\text{max}} \cdot \exp\left(-\pi \frac{x^2}{R^2}\right)$$
    - Real-time computation of **Maximum Tensile Strain ($\epsilon$)**, **Damage Radius ($R$)**, and **Goaf Void Volume ($V$)**.
-2. **AI Predictive Forecast Engine:**
+4. **AI Predictive Forecast Engine:**
    - Dynamic polynomial regression & trend trajectory engine.
    - Forecasts sag depth 15, 30, and 60 minutes into the future to alert operators before critical thresholds are breached.
-3. **GIS Mine Mesh Map:**
+5. **GIS Mine Mesh Map:**
    - Real-time geo-spatial layout of underground coal panels (P-1 through P-5).
    - Dynamic heatmaps of high-strain subsidence zones with rover node tracking.
 

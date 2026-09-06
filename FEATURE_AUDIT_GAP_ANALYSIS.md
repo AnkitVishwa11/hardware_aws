@@ -38,6 +38,15 @@
 
 ### 🌟 USP 3: AI/ML Autoregressive Predictive Subsidence Engine
 * **Forward Forecast Curve**: Autoregressive polynomial model projecting future ground deformation for $+1\text{h}$, $+3\text{h}$, and $+6\text{h}$ forward horizons.
+* **Velocity Tracking**: Instant deformation speed ($10.0\text{ cm/hr}$) with $94\%$ statistical confidence ($R^2 = 0.94$).
+
+### 🌟 USP 4: Multi-Rover Swarm Fleet & Dual-Panel Sync (`FleetSwarmTab.tsx`)
+* **Dual-Panel Live Tracking**: Simultaneous monitoring of `ROVER_01` (Panel P-4B Longwall) and `ROVER_02` (Panel P-2A Depillaring).
+* **Inter-Panel Differential Variance Matrix**: Real-time cross-panel $\Delta\text{Sag}$ differential gap, slope angular variance, and mesh node hop health.
+
+### 🌟 USP 5: 1-Click DGMS Statutory Safety Audit Report Generator (`DgmsReportModal.tsx`)
+* **Government/DGMS Form IV-A Standard**: Instant printable/PDF official compliance certificate.
+* **Automated Safety Verdict**: Instant verification of ground sag, floor slope, vibration RMS, and gas ADC against statutory limits with digital sign-off stamps.
 * **95% Confidence Interval Bands**: Mathematical expanding uncertainty cones ($R^2 = 0.94$).
 * **Deformation Velocity & Acceleration**: Live subsidence rate ($\text{cm/hr}$) and acceleration ($\text{cm/hr}^2$).
 * **Time-to-Critical Breach Estimator**: Automatic calculation predicting exact hours remaining before critical statutory limits ($16.0\text{cm}$) are breached.

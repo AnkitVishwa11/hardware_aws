@@ -13,15 +13,19 @@ let tickCount = 0;
 export function generateDemoTelemetry(
   scenario: DemoScenario,
   _prevData?: SensorData,
-  timeOffsetSec: number = 0
+  timeOffsetSec: number = 0,
+  roverId: string = 'ROVER_01'
 ): SensorData {
   tickCount++;
   const now = new Date(Date.now() - timeOffsetSec * 1000).toISOString();
 
   // Baseline values
-  let d1 = 21.8 + Math.sin(tickCount * 0.1) * 0.3;
-  let d2 = 22.1 + Math.cos(tickCount * 0.1) * 0.3;
-  let d3 = 21.9 + Math.sin(tickCount * 0.1 + 1) * 0.3;
+  const isRover2 = roverId === 'ROVER_02';
+  const baseOffset = isRover2 ? 1.5 : 0.0;
+  
+  let d1 = 21.8 + baseOffset + Math.sin((tickCount + (isRover2 ? 15 : 0)) * 0.1) * 0.3;
+  let d2 = 22.1 + baseOffset + Math.cos((tickCount + (isRover2 ? 15 : 0)) * 0.1) * 0.3;
+  let d3 = 21.9 + baseOffset + Math.sin((tickCount + (isRover2 ? 15 : 0)) * 0.1 + 1) * 0.3;
 
   let accelX = 0.05 + (Math.random() - 0.5) * 0.08;
   let accelY = 0.03 + (Math.random() - 0.5) * 0.08;
@@ -31,14 +35,14 @@ export function generateDemoTelemetry(
   let gyroY = (Math.random() - 0.5) * 0.8;
   let gyroZ = (Math.random() - 0.5) * 0.4;
 
-  let tiltX = 0.8 + (Math.random() - 0.5) * 0.4;
-  let tiltY = 0.5 + (Math.random() - 0.5) * 0.4;
+  let tiltX = (isRover2 ? 1.4 : 0.8) + (Math.random() - 0.5) * 0.4;
+  let tiltY = (isRover2 ? 0.9 : 0.5) + (Math.random() - 0.5) * 0.4;
 
-  let vibRms = 0.12 + Math.random() * 0.05;
-  let gas = 380 + Math.floor(Math.random() * 25);
-  let temp = 29.4 + Math.sin(tickCount * 0.05) * 0.8;
-  let hum = 74 + Math.cos(tickCount * 0.05) * 2;
-  let batt = 11.9 - (tickCount * 0.001) % 0.8;
+  let vibRms = (isRover2 ? 0.16 : 0.12) + Math.random() * 0.05;
+  let gas = (isRover2 ? 410 : 380) + Math.floor(Math.random() * 25);
+  let temp = (isRover2 ? 30.2 : 29.4) + Math.sin(tickCount * 0.05) * 0.8;
+  let hum = (isRover2 ? 78 : 74) + Math.cos(tickCount * 0.05) * 2;
+  let batt = (isRover2 ? 11.4 : 11.9) - (tickCount * 0.001) % 0.8;
   let conn: SensorData['connection_status'] = 'online';
   let mp: string | undefined = undefined;
 
@@ -85,15 +89,15 @@ export function generateDemoTelemetry(
       break;
   }
 
-  // Base geographic position (e.g. Jharia Coalfield Panel P-4B)
-  const baseLat = 23.7524;
-  const baseLng = 86.4218;
-  const latOffset = Math.sin(tickCount * 0.05) * 0.0018;
-  const lngOffset = Math.cos(tickCount * 0.05) * 0.0018;
+  // Base geographic position (ROVER_01: Panel P-4B, ROVER_02: Panel P-2A)
+  const baseLat = isRover2 ? 23.7562 : 23.7524;
+  const baseLng = isRover2 ? 86.4175 : 86.4218;
+  const latOffset = Math.sin((tickCount + (isRover2 ? 20 : 0)) * 0.05) * 0.0018;
+  const lngOffset = Math.cos((tickCount + (isRover2 ? 20 : 0)) * 0.05) * 0.0018;
   const roverHeading = Math.round((Math.atan2(lngOffset, latOffset) * 180 / Math.PI + 360) % 360);
 
   return {
-    device_id: 'ROVER_01',
+    device_id: roverId,
     timestamp: now,
     distance_1: Number(d1.toFixed(1)),
     distance_2: Number(d2.toFixed(1)),
@@ -116,17 +120,17 @@ export function generateDemoTelemetry(
     latitude: Number((baseLat + latOffset).toFixed(6)),
     longitude: Number((baseLng + lngOffset).toFixed(6)),
     altitude: Number((184.5 + Math.sin(tickCount * 0.05) * 1.5).toFixed(1)),
-    satellites: 9,
+    satellites: isRover2 ? 8 : 9,
     speed_kmh: Number((0.8 + (Math.random() - 0.5) * 0.2).toFixed(1)),
     heading: roverHeading,
     is_demo: true
   };
 }
 
-export function generateInitialHistory(points: number = 40): SensorData[] {
+export function generateInitialHistory(points: number = 40, roverId: string = 'ROVER_01'): SensorData[] {
   const history: SensorData[] = [];
   for (let i = points - 1; i >= 0; i--) {
-    history.push(generateDemoTelemetry('normal', undefined, i * 10));
+    history.push(generateDemoTelemetry('normal', undefined, i * 10, roverId));
   }
   return history;
 }
