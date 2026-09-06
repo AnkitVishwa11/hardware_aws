@@ -15,6 +15,7 @@ import { HistoricalDataTab } from './components/dashboard/HistoricalDataTab';
 import { HardwareStatusTab } from './components/dashboard/HardwareStatusTab';
 import { GisMapTab } from './components/dashboard/GisMapTab';
 import { PredictiveForecastTab } from './components/dashboard/PredictiveForecastTab';
+import { SubsidenceBasinTab } from './components/dashboard/SubsidenceBasinTab';
 import { LoadingState } from './components/common/FeedbackStates';
 import { DISCLAIMERS, PROJECT_INFO } from './utils/constants';
 import { Ruler, ShieldAlert } from 'lucide-react';
@@ -58,7 +59,7 @@ export const App: React.FC = () => {
 
   const handleSelectSection = (section: NavSectionId) => {
     setActiveSection(section);
-    if (section === 'historical' || section === 'system' || section === 'map' || section === 'predictive') {
+    if (section === 'historical' || section === 'system' || section === 'map' || section === 'predictive' || section === 'basin') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -146,6 +147,28 @@ export const App: React.FC = () => {
               <GisMapTab
                 currentData={currentData}
                 history={history}
+                roverId={roverId}
+                isDemo={mode === 'DEMO'}
+              />
+            </div>
+          ) : activeSection === 'basin' ? (
+            /* Dedicated 3D Subsidence Basin Digital Twin View */
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-[#1c2842] pb-3">
+                <div>
+                  <h2 className="text-lg font-mono font-bold text-white uppercase">3D Subsidence Basin Digital Twin</h2>
+                  <p className="text-xs text-slate-400 font-mono">Knothe empirical ground depression model & infrastructure strain impact</p>
+                </div>
+                <button
+                  onClick={() => setActiveSection('dashboard')}
+                  className="rounded bg-[#10192d] px-3 py-1.5 text-xs font-mono text-amber-400 border border-slate-700 hover:bg-[#182234]"
+                >
+                  ← Return to Command Center
+                </button>
+              </div>
+              <SubsidenceBasinTab
+                currentData={currentData}
+                baseline={baseline}
                 roverId={roverId}
                 isDemo={mode === 'DEMO'}
               />

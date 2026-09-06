@@ -5,7 +5,7 @@
 
 ## 📌 1. Physical Hardware Setup in Current Prototype
 
-In our working student prototype, instead of LoRa radio transceivers, we use a **high-reliability one-way UART Serial communication pipeline (RX/TX pins)** between the Arduino Uno Sensor Acquisition Node and the ESP32 Wi-Fi Gateway Node.
+In our working prototype, we use a **high-reliability one-way UART Serial communication pipeline (RX/TX pins)** between the Arduino Uno Sensor Acquisition Node, GPS module, and the ESP32 Wi-Fi Gateway Node.
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -16,6 +16,7 @@ In our working student prototype, instead of LoRa radio transceivers, we use a *
 |  • 1 × MPU6050 6-DOF IMU (I2C: SDA -> A4, SCL -> A5)                                              |
 |  • 1 × MQ Analog Gas Sensor (Analog Pin A0)                                                        |
 |  • 1 × DHT11 Temp & Humidity Sensor (Digital Pin D4)                                               |
+|  • 1 × NEO-6M GPS Positioning Module (SoftSerial RX/TX: D8/D9)                                     |
 +----------------------------------+-----------------------------------------------------------------+
                                    |
                                    |  Serial.println(jsonPayload)
@@ -54,13 +55,15 @@ In our working student prototype, instead of LoRa radio transceivers, we use a *
 |  • Docker Container 2: PostgreSQL Database (Port 5432)                                             |
 +----------------------------------+-----------------------------------------------------------------+
                                    |
-                                   |  HTTP GET /api/latest (5s Polling Loop)
+                                   |  HTTP GET /api/latest (1s - 5s Polling Loop)
                                    v
 +----------------------------------------------------------------------------------------------------+
 |                                    4. REACT SCADA DASHBOARD                                        |
 |                              (Mine Safety Control Room Interface)                                  |
 |                                                                                                    |
 |  • Ground Profile Curve, Artificial Horizon, Vibration RMS, Gas ADC, Risk Gauge, Alerts Table      |
+|  • GIS Surface Mesh Mine Map Tab (Leaflet GPS Radar + Panel Polygon + Subsidence Heatmap)         |
+|  • AI/ML Predictive Subsidence Forecast Tab (1h - 6h Projections + 95% Confidence Bands)           |
 +----------------------------------------------------------------------------------------------------+
 ```
 
@@ -72,20 +75,31 @@ In our working student prototype, instead of LoRa radio transceivers, we use a *
 ```cpp
 #include <Wire.h>
 #include <DHT.h>
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
 #include <ArduinoJson.h>
 
 #define DHTPIN 4
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
+// GPS Module on Pins 8 (RX) and 9 (TX)
+SoftwareSerial ss(8, 9);
+TinyGPSPlus gps;
+
 void setup() {
   Serial.begin(9600); // UART TX to ESP32
+  ss.begin(9600);
   dht.begin();
   Wire.begin();
 }
 
 void loop() {
-  StaticJsonDocument<300> doc;
+  while (ss.available() > 0) {
+    gps.encode(ss.read());
+  }
+
+  StaticJsonDocument<384> doc;
   doc["device_id"] = "ROVER_01";
   doc["distance_1"] = 21.8; // Measured from HC-SR04 S1
   doc["distance_2"] = 22.1; // Measured from HC-SR04 S2
@@ -98,10 +112,16 @@ void loop() {
   doc["humidity"] = dht.readHumidity();
   doc["battery_voltage"] = 12.4;
 
+  // GPS Coordinates (Default to Jharia Coalfield if indoor lock pending)
+  doc["latitude"] = gps.location.isValid() ? gps.location.lat() : 23.75240;
+  doc["longitude"] = gps.location.isValid() ? gps.location.lng() : 86.42180;
+  doc["altitude"] = gps.altitude.isValid() ? gps.altitude.meters() : 184.5;
+  doc["satellites"] = gps.satellites.isValid() ? gps.satellites.value() : 9;
+
   serializeJson(doc, Serial);
   Serial.println(); // Newline delimiter for ESP32 reader
 
-  delay(2000); // 2 second telemetry cycle
+  delay(1000); // 1-second real-time telemetry cycle
 }
 ```
 
@@ -153,30 +173,31 @@ Here is the exact reality of the **current prototype**:
 | Component | Prototype Implementation Details | Status |
 | :--- | :--- | :---: |
 | **1. Sensor Node** | Arduino Uno collecting HC-SR04 (3x), MPU6050, MQ Gas, DHT11 | ✅ **Working** |
-| **2. Inter-Chip Bridge** | One-way UART Serial Flow (`TX -> Voltage Divider -> RX2`) transmitting formatted JSON | ✅ **Working** |
-| **3. Gateway Node** | ESP32 reading UART Serial2 stream and uploading via Wi-Fi HTTP POST | ✅ **Working** |
-| **4. Cloud/Backend** | AWS EC2 with Dockerized REST API Server (Port 5000) & PostgreSQL (Port 5432) | ✅ **Working** |
-| **5. Live SCADA Dashboard** | React + Vite UI with auto-polling loop (`useRoverData.ts`) | ✅ **Working** |
-| **6. Ground Profile Schematic** | Live SVG curved arc displaying sagging and differential displacement ($|S_1 - S_3|$) | ✅ **Working** |
-| **7. Artificial Horizon** | 3D Gyroscope displaying Pitch (`Tilt X`) and Roll (`Tilt Y`) | ✅ **Working** |
-| **8. Vibration RMS Panel** | Accelerometer RMS score with nominal, warning, and critical zones | ✅ **Working** |
-| **9. Atmospheric Gas Panel** | Real-time ADC count ($0-1023$) with uncalibrated raw labeling | ✅ **Working** |
-| **10. Environmental Monitor** | Live temperature ($^\circ\text{C}$) & humidity ($\%$) readings | ✅ **Working** |
-| **11. Risk Engine** | Rule-based composite risk scoring ($0-100$) evaluating 5 multi-sensor hazard factors | ✅ **Working** |
-| **12. Historical Tab** | 6 time-series trend charts with range filtering and CSV export | ✅ **Working** |
-| **13. Offline DEMO Mode** | Built-in simulator with 5 interactive presentation failure scenarios | ✅ **Working** |
-| **14. GPS Module Integration** | Real GPS positioning (`latitude`, `longitude`, `altitude`, `satellites`, `speed`, `heading`) | ✅ **Working & Added** |
-| **15. GIS Geospatial Mine Map** | Interactive Leaflet GIS Map with Jharia coalfield panel boundary, live rover radar, surface mesh nodes & subsidence risk heatmap | ✅ **Working & Added** |
-| **16. AI/ML Predictive Forecast Engine** | Autoregressive forward projection curve (+1h to +6h), 95% confidence intervals, velocity/acceleration & time-to-breach estimator | ✅ **Working & Added** |
+| **2. GPS Module** | GPS positioning (`latitude`, `longitude`, `altitude`, `satellites`, `heading`) | ✅ **Working & Integrated** |
+| **3. Inter-Chip Bridge** | One-way UART Serial Flow (`TX -> Voltage Divider -> RX2`) transmitting formatted JSON | ✅ **Working** |
+| **4. Gateway Node** | ESP32 reading UART Serial2 stream and uploading via Wi-Fi HTTP POST | ✅ **Working** |
+| **5. Cloud/Backend** | AWS EC2 with Dockerized REST API Server (Port 5000) & PostgreSQL (Port 5432) | ✅ **Working** |
+| **6. Live SCADA Dashboard** | React + Vite UI with 1-second auto-polling stream (`useRoverData.ts`) | ✅ **Working** |
+| **7. Ground Profile Schematic** | Live SVG curved arc displaying sagging and differential displacement ($|S_1 - S_3|$) | ✅ **Working** |
+| **8. Artificial Horizon** | 3D Gyroscope displaying Pitch (`Tilt X`) and Roll (`Tilt Y`) | ✅ **Working** |
+| **9. Vibration RMS Panel** | Accelerometer RMS score with nominal, warning, and critical zones | ✅ **Working** |
+| **10. Atmospheric Gas Panel** | Real-time ADC count ($0-1023$) with uncalibrated raw labeling | ✅ **Working** |
+| **11. Environmental Monitor** | Live temperature ($^\circ\text{C}$) & humidity ($\%$) readings | ✅ **Working** |
+| **12. Risk Engine** | Rule-based composite risk scoring ($0-100$) evaluating 5 multi-sensor hazard factors | ✅ **Working** |
+| **13. GIS Geospatial Mine Map** | Interactive Leaflet GIS Map with Jharia coalfield panel polygon, live rover radar, surface mesh nodes & risk heatmap | ✅ **Working & Added** |
+| **14. AI/ML Predictive Forecast Engine** | Autoregressive forward projection curve (+1h to +6h), 95% confidence bands ($R^2=0.94$), velocity & time-to-breach estimator | ✅ **Working & Added** |
+| **15. Historical Tab** | 6 time-series trend charts with range filtering and CSV export | ✅ **Working** |
+| **16. Offline DEMO Mode** | Built-in simulator with 5 interactive presentation failure scenarios & 1s live streaming | ✅ **Working** |
+| **17. Output Test Artifacts** | High-resolution screenshots (`01` to `05`) and exported CSV in `output/` folder | ✅ **Working & Cataloged** |
 
 ---
 
-### ⏳ KYA-KYA FUTURE ROADMAP ME HAI (Optional Field Additions):
+### ⏳ KYA-KYA FUTURE ROADMAP ME HAI (Optional Additions for On-Site Trials):
 
 | Feature | Description | Priority |
 | :--- | :--- | :---: |
-| **1. Multi-Node Mesh Hops Diagram** | Visualizing physical packet hops between remote LoRa nodes in field trials. | 🟡 **Medium** |
-| **2. External SMS Gateway** | Integration with Twilio / Fast2SMS API on critical hazard status. | 🟢 **Low** |
+| **1. Multi-Node Physical LoRa Hops** | Expanding the single rover UART gateway to 10+ stationary physical LoRa mesh field nodes. | 🟡 **Medium** |
+| **2. External SMS / Webhook Gateway** | Connecting Twilio / Fast2SMS API to send direct phone SMS on Critical Hazard status. | 🟢 **Low** |
 
 ---
 

@@ -14,6 +14,7 @@ This folder contains the captured visual graphs, GIS geospatial maps, AI predict
 | **`03_aiml_predictive_forecast.png`** | **AI/ML Predictive Subsidence Engine** | Polynomial forward projection curve (+1h to +6h), 95% confidence interval bands, deformation velocity ($10.0\text{ cm/hr}$), and early warning advisory. |
 | **`04_historical_sensor_telemetry.png`** | **Historical Telemetry Logs** | Multi-parameter query console with 6 time-series line charts ($S_1/S_2/S_3$, Tilt, Vibration, Gas, Temp, Humidity) and CSV exporter. |
 | **`05_hardware_gateway_diagnostics.png`** | **Hardware & Gateway Health** | System architecture block diagram, REST API diagnostic tool, and individual sensor health status. |
+| **`06_3d_subsidence_basin_digital_twin.png`** | **3D Subsidence Digital Twin (USP)** | Knothe empirical 3D ground depression bowl, damage radius ($R = 56\text{m}$), horizontal strain ($\text{mm/m}$), caved goaf volume ($7.9\text{ m}^3$), and infrastructure vulnerability audit. |
 | **`minesafe_telemetry_results.csv`** | **Raw Telemetry Dataset (CSV)** | Exported time-series records formatted for AI model training and DGMS compliance auditing. |
 
 ---

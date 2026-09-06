@@ -17,12 +17,14 @@ import {
   X,
   ChevronRight,
   MapPin,
-  BrainCircuit
+  BrainCircuit,
+  Boxes
 } from 'lucide-react';
 
 export type NavSectionId = 
   | 'dashboard'
   | 'map'
+  | 'basin'
   | 'predictive'
   | 'displacement'
   | 'ultrasonic'
@@ -73,6 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       groupName: 'AI & PREDICTION',
       items: [
+        { id: 'basin', label: '3D Digital Twin Basin', icon: Boxes },
         { id: 'predictive', label: 'AI Predictive Forecast', icon: BrainCircuit },
         { id: 'risk', label: 'Risk Analysis', icon: ShieldAlert },
         { id: 'historical', label: 'Historical Telemetry', icon: History }
