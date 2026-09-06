@@ -106,28 +106,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* Fixed 240px Sidebar */}
+      {/* Fixed 220px Sidebar */}
       <aside
-        className={`fixed top-[72px] bottom-0 left-0 z-40 flex w-[240px] flex-col border-r border-slate-200 bg-white transition-transform duration-200 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-14 bottom-0 left-0 z-40 flex w-[220px] flex-col border-r border-slate-200 bg-white transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isOpenMobile ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Mobile Header Close Strip */}
-        <div className="flex h-10 items-center justify-between px-4 border-b border-slate-200 lg:hidden bg-slate-50">
-          <span className="text-xs font-mono font-bold text-slate-800">SECTIONS</span>
+        <div className="flex h-9 items-center justify-between px-3 border-b border-slate-200 lg:hidden bg-slate-50">
+          <span className="text-[11px] font-mono font-bold text-slate-800">SECTIONS</span>
           <button
             onClick={onCloseMobile}
             className="rounded p-1 text-slate-500 hover:bg-slate-200 hover:text-slate-900"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5" />
           </button>
         </div>
 
         {/* Scrollable Nav List */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-2.5 py-3 space-y-3">
           {navGroups.map((group) => (
-            <div key={group.groupName} className="space-y-1">
-              <div className="px-3 text-[10px] font-mono font-bold tracking-wider text-slate-400 uppercase">
+            <div key={group.groupName} className="space-y-0.5">
+              <div className="px-2.5 text-[9px] font-mono font-bold tracking-wider text-slate-400 uppercase">
                 {group.groupName}
               </div>
 
@@ -139,23 +139,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <button
                     key={item.id}
                     onClick={() => handleSelect(item.id)}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+                    className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-xs font-medium transition-all ${
                       isActive
-                        ? 'bg-amber-50 text-amber-900 font-bold border-l-3 border-amber-500 shadow-sm'
+                        ? 'bg-amber-50 text-amber-900 font-bold border-l-2 border-amber-500 shadow-2xs'
                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-amber-600' : 'text-slate-400'}`} />
-                      <span className="truncate">{item.label}</span>
+                    <div className="flex items-center gap-2">
+                      <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-amber-600' : 'text-slate-400'}`} />
+                      <span className="truncate text-[11px]">{item.label}</span>
                     </div>
 
                     {item.badge !== undefined && item.badge > 0 ? (
-                      <span className="rounded-full bg-rose-100 px-1.5 py-0.2 text-[10px] font-mono font-bold text-rose-700 border border-rose-200">
+                      <span className="rounded-full bg-rose-100 px-1.5 py-0.2 text-[9px] font-mono font-bold text-rose-700 border border-rose-200">
                         {item.badge}
                       </span>
                     ) : isActive ? (
-                      <ChevronRight className="h-3.5 w-3.5 text-amber-600" />
+                      <ChevronRight className="h-3 w-3 text-amber-600" />
                     ) : null}
                   </button>
                 );
@@ -165,13 +165,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Bottom Hardware Status Pod */}
-        <div className="border-t border-slate-200 bg-slate-50 p-3 m-2 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1.5">
-          <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider flex items-center justify-between">
+        <div className="border-t border-slate-200 bg-slate-50 p-2.5 m-2 rounded-lg border border-slate-200 font-mono text-[10px] space-y-1">
+          <div className="text-[9px] uppercase font-bold text-slate-500 tracking-wider flex items-center justify-between">
             <span>HARDWARE PIPELINE</span>
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
           </div>
 
-          <div className="space-y-1 text-slate-700 text-[10px]">
+          <div className="space-y-0.5 text-slate-700 text-[9px]">
             <div className="flex items-center justify-between">
               <span className="text-slate-500">Arduino Uno:</span>
               <span className="text-emerald-700 font-bold">UART ACTIVE</span>

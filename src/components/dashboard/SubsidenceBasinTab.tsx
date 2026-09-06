@@ -61,21 +61,21 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
   const isWarning = basin.maxTensileStrainMmPerM >= 1.5 || basin.maxSubsidenceSagCm >= 2.5;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Top Geotechnical Summary & DGMS Rating */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 text-xs font-mono bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs">
         <div className="flex items-center gap-2">
           <div className="p-1.5 rounded bg-amber-50 text-amber-600 border border-amber-100">
             <Boxes className="h-4 w-4" />
           </div>
           <div>
-            <span className="font-bold text-slate-900 block text-sm">3D Subsidence Basin Digital Twin & Impact Modeler</span>
-            <span className="text-slate-500 text-[11px]">Knothe-Budryk Ground Depression Curve • MPU6050 Slope + GPS Integration</span>
+            <span className="font-bold text-slate-900 block text-xs sm:text-sm">3D Subsidence Basin Digital Twin & Impact Modeler</span>
+            <span className="text-slate-500 text-[10px] sm:text-[11px]">Knothe-Budryk Ground Depression Curve • MPU6050 Slope + GPS Integration</span>
           </div>
         </div>
 
         {/* DGMS Overall Damage Rating Badge */}
-        <div className={`rounded-lg border px-3 py-1 font-mono text-xs flex items-center gap-2 ${
+        <div className={`rounded-lg border px-2.5 py-1 font-mono text-xs flex items-center gap-1.5 ${
           isCritical 
             ? 'border-rose-200 bg-rose-50 text-rose-800' 
             : isWarning 
@@ -83,98 +83,98 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
             : 'border-emerald-200 bg-emerald-50 text-emerald-800'
         }`}>
           {isCritical ? (
-            <ShieldAlert className="h-4 w-4 text-rose-600 animate-pulse" />
+            <ShieldAlert className="h-3.5 w-3.5 text-rose-600 animate-pulse" />
           ) : isWarning ? (
-            <AlertTriangle className="h-4 w-4 text-amber-600" />
+            <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
           ) : (
-            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
           )}
           <div>
-            <span className="text-[10px] text-slate-500 block uppercase font-semibold">DGMS Risk:</span>
-            <span className="font-bold">{basin.dgmsOverallDamageClass.split(':')[0]}</span>
+            <span className="text-[9px] text-slate-500 block uppercase font-semibold">DGMS Risk:</span>
+            <span className="font-bold text-xs">{basin.dgmsOverallDamageClass.split(':')[0]}</span>
           </div>
         </div>
       </div>
 
       {/* Top 4 Mining Geotechnical KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono">
         {/* 1. Max Subsidence Sag */}
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1">
-          <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold block">Max Basin Sag (S_max)</span>
+        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xs space-y-0.5">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold block">Max Basin Sag (S_max)</span>
           <div className="flex items-baseline justify-between">
-            <span className={`text-2xl font-bold ${isCritical ? 'text-rose-600' : isWarning ? 'text-amber-600' : 'text-slate-900'}`}>
+            <span className={`text-xl font-bold ${isCritical ? 'text-rose-600' : isWarning ? 'text-amber-600' : 'text-slate-900'}`}>
               {basin.maxSubsidenceSagCm.toFixed(1)} cm
             </span>
-            <span className="text-xs text-slate-500 font-medium">Slope: {basin.maxGroundSlopeDeg}°</span>
+            <span className="text-[11px] text-slate-500 font-medium">Slope: {basin.maxGroundSlopeDeg}°</span>
           </div>
-          <div className="text-[10px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
+          <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
             Central maximum trough depth
           </div>
         </div>
 
         {/* 2. Radius of Influence (R) */}
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1">
-          <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold block">Damage Radius (R)</span>
+        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xs space-y-0.5">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold block">Damage Radius (R)</span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-sky-600">{basin.radiusOfInfluenceM} m</span>
-            <span className="text-xs text-slate-500 font-medium">Draw: {basin.angleDrawDeg}°</span>
+            <span className="text-xl font-bold text-sky-600">{basin.radiusOfInfluenceM} m</span>
+            <span className="text-[11px] text-slate-500 font-medium">Draw: {basin.angleDrawDeg}°</span>
           </div>
-          <div className="text-[10px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
+          <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
             R = H · cot(γ) @ Depth {basin.extractionDepthM}m
           </div>
         </div>
 
         {/* 3. Maximum Tensile Strain */}
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1">
-          <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold block">Max Tensile Strain (ε)</span>
+        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xs space-y-0.5">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold block">Max Tensile Strain (ε)</span>
           <div className="flex items-baseline justify-between">
-            <span className={`text-2xl font-bold ${basin.maxTensileStrainMmPerM >= 2.0 ? 'text-rose-600' : 'text-amber-600'}`}>
+            <span className={`text-xl font-bold ${basin.maxTensileStrainMmPerM >= 2.0 ? 'text-rose-600' : 'text-amber-600'}`}>
               {basin.maxTensileStrainMmPerM} mm/m
             </span>
-            <span className="text-xs text-slate-500 font-medium">Limit: 2.0</span>
+            <span className="text-[11px] text-slate-500 font-medium">Limit: 2.0</span>
           </div>
-          <div className="text-[10px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
+          <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
             Derived from MPU6050 tilt curvature
           </div>
         </div>
 
         {/* 4. Caved Goaf Void Volume */}
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1">
-          <span className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold block">Goaf Void Volume (V)</span>
+        <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xs space-y-0.5">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold block">Goaf Void Volume (V)</span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-purple-600">{basin.cavedGoafVolumeM3} m³</span>
-            <span className="text-xs text-slate-500 font-medium">Area: {basin.affectedSurfaceAreaM2}m²</span>
+            <span className="text-xl font-bold text-purple-600">{basin.cavedGoafVolumeM3} m³</span>
+            <span className="text-[11px] text-slate-500 font-medium">Area: {basin.affectedSurfaceAreaM2}m²</span>
           </div>
-          <div className="text-[10px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
+          <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-100 font-medium">
             3D integrated void depression
           </div>
         </div>
       </div>
 
       {/* Main 3D Digital Twin Viewer & Geotechnical Formula Matrix */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
         {/* Left 3D Digital Twin Wireframe Mesh Canvas (7 cols) */}
-        <div className="xl:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+        <div className="xl:col-span-7 rounded-xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-2xs space-y-2.5">
           {/* Controls Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <span className="text-slate-600 font-semibold">Perspective Mode:</span>
-              <div className="inline-flex rounded-lg bg-slate-100 p-0.5 border border-slate-200">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-100 pb-2 text-xs font-mono">
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-600 font-semibold text-[11px]">Mode:</span>
+              <div className="inline-flex rounded-md bg-slate-100 p-0.5 border border-slate-200">
                 <button
                   onClick={() => setViewMode('3d')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${viewMode === '3d' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${viewMode === '3d' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   3D Isometric
                 </button>
                 <button
                   onClick={() => setViewMode('contour')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${viewMode === 'contour' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${viewMode === 'contour' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   2D Contours
                 </button>
                 <button
                   onClick={() => setViewMode('profile')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${viewMode === 'profile' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${viewMode === 'profile' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   Knothe Curve
                 </button>
@@ -182,23 +182,23 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
             </div>
 
             {viewMode === '3d' && (
-              <div className="flex items-center gap-2 text-slate-600">
-                <span className="text-[11px] font-semibold">Orbit Angle:</span>
+              <div className="flex items-center gap-1.5 text-slate-600">
+                <span className="text-[10px] font-semibold">Orbit:</span>
                 <input
                   type="range"
                   min="0"
                   max="90"
                   value={rotationAngle}
                   onChange={(e) => setRotationAngle(Number(e.target.value))}
-                  className="w-24 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
+                  className="w-20 h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
                 />
-                <span className="text-[11px] text-amber-700 w-6 font-bold">{rotationAngle}°</span>
+                <span className="text-[10px] text-amber-700 w-5 font-bold">{rotationAngle}°</span>
               </div>
             )}
           </div>
 
           {/* 3D Wireframe SVG Canvas */}
-          <div className="relative h-[340px] w-full rounded-lg bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center p-2">
+          <div className="relative h-[250px] sm:h-[270px] w-full rounded-lg bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center p-1.5">
             {viewMode === '3d' ? (
               <svg viewBox="0 0 560 320" className="w-full h-full">
                 <defs>
@@ -354,34 +354,34 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
         </div>
 
         {/* Right Knothe Geotechnical HUD & Equation Matrix (5 cols) */}
-        <div className="xl:col-span-5 space-y-4 font-mono text-xs">
+        <div className="xl:col-span-5 space-y-3 font-mono text-xs">
           {/* Scientific Equation Block */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
               <Compass className="h-3.5 w-3.5 text-amber-600" />
               Knothe Subsidence Formulation
             </h4>
 
-            <div className="rounded bg-slate-50 p-2.5 border border-slate-200 text-amber-800 space-y-1">
-              <div className="text-[11px] font-bold">S(x, y) = S_max · exp(-π · r² / R²)</div>
-              <div className="text-[10px] text-slate-600">
+            <div className="rounded-lg bg-slate-50 p-2 border border-slate-200 text-amber-800 space-y-0.5">
+              <div className="text-[10px] sm:text-[11px] font-bold">S(x, y) = S_max · exp(-π · r² / R²)</div>
+              <div className="text-[9px] text-slate-600">
                 Ground Slope (Tilt): i = tan(θ_mpu) = {basin.maxGroundSlopeDeg}°
               </div>
-              <div className="text-[10px] text-slate-600">
+              <div className="text-[9px] text-slate-600">
                 Influence Radius: R = {basin.extractionDepthM}m · cot({basin.angleDrawDeg}°) = {basin.radiusOfInfluenceM} m
               </div>
             </div>
 
-            <div className="space-y-1.5 text-slate-700 text-[11px]">
-              <div className="flex justify-between border-b border-slate-100 pb-1">
+            <div className="space-y-1 text-slate-700 text-[10px]">
+              <div className="flex justify-between border-b border-slate-100 pb-0.5">
                 <span className="text-slate-500">Overburden Strata:</span>
                 <span className="text-slate-900 font-semibold">Barakar Sandstone & Shale</span>
               </div>
-              <div className="flex justify-between border-b border-slate-100 pb-1">
+              <div className="flex justify-between border-b border-slate-100 pb-0.5">
                 <span className="text-slate-500">Draw Angle (γ):</span>
                 <span className="text-slate-900 font-semibold">{basin.angleDrawDeg}° (Indian Standard)</span>
               </div>
-              <div className="flex justify-between border-b border-slate-100 pb-1">
+              <div className="flex justify-between border-b border-slate-100 pb-0.5">
                 <span className="text-slate-500">Horizontal Displacement:</span>
                 <span className="text-sky-700 font-semibold">B = 0.35 · R = {(0.35 * basin.radiusOfInfluenceM).toFixed(1)}m</span>
               </div>
@@ -393,26 +393,26 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
           </div>
 
           {/* DGMS Damage Severity Classification Guide */}
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+          <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs space-y-1.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
               <HardHat className="h-3.5 w-3.5 text-sky-600" />
               DGMS Surface Damage Classification
             </h4>
 
-            <div className="space-y-1.5 text-[10px]">
-              <div className="flex items-center justify-between p-1.5 rounded bg-slate-50 border border-slate-200">
+            <div className="space-y-1 text-[9px]">
+              <div className="flex items-center justify-between p-1 rounded bg-slate-50 border border-slate-200">
                 <span className="text-emerald-700 font-bold">Class 0 (&lt; 0.5 mm/m)</span>
                 <span className="text-slate-500 font-medium">No damage to surface structures</span>
               </div>
-              <div className="flex items-center justify-between p-1.5 rounded bg-slate-50 border border-slate-200">
+              <div className="flex items-center justify-between p-1 rounded bg-slate-50 border border-slate-200">
                 <span className="text-sky-700 font-bold">Class I (0.5 - 1.0 mm/m)</span>
                 <span className="text-slate-500 font-medium">Slight plaster micro-fissuring</span>
               </div>
-              <div className="flex items-center justify-between p-1.5 rounded bg-slate-50 border border-slate-200">
+              <div className="flex items-center justify-between p-1 rounded bg-slate-50 border border-slate-200">
                 <span className="text-amber-700 font-bold">Class II (1.0 - 2.0 mm/m)</span>
                 <span className="text-slate-500 font-medium">Wall cracks, pipe flexure</span>
               </div>
-              <div className="flex items-center justify-between p-1.5 rounded bg-slate-50 border border-slate-200">
+              <div className="flex items-center justify-between p-1 rounded bg-slate-50 border border-slate-200">
                 <span className="text-rose-700 font-bold">Class III &gt; 2.0 mm/m</span>
                 <span className="text-slate-500 font-medium">Structural rupture, evacuation</span>
               </div>
@@ -422,57 +422,57 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
       </div>
 
       {/* Surface Infrastructure Vulnerability Assessment Table */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+      <div className="rounded-xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-2xs space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-100 pb-2">
           <div>
-            <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+            <h3 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
               <Building2 className="h-4 w-4 text-amber-600" />
               Real-Time Surface Infrastructure Strain & Vulnerability Audit
             </h3>
-            <p className="text-xs text-slate-500 font-mono">
-              Live damage prediction for public assets located within the Knothe Radius of Influence (R = {basin.radiusOfInfluenceM}m)
+            <p className="text-[11px] text-slate-500 font-mono">
+              Live damage prediction for public assets located within Knothe Radius of Influence (R = {basin.radiusOfInfluenceM}m)
             </p>
           </div>
-          <span className="text-xs font-mono text-slate-500 font-semibold">
+          <span className="text-[11px] font-mono text-slate-500 font-semibold">
             {basin.infrastructureAssets.length} Monitored Assets
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider text-[10px] border-b border-slate-200">
+            <thead className="bg-slate-50 text-slate-600 uppercase tracking-wider text-[9px] border-b border-slate-200">
               <tr>
-                <th className="py-2.5 px-3">Infrastructure Asset</th>
-                <th className="py-2.5 px-3">Type</th>
-                <th className="py-2.5 px-3">Distance from Trough</th>
-                <th className="py-2.5 px-3">Induced Strain (ε)</th>
-                <th className="py-2.5 px-3">Predicted Tilt</th>
-                <th className="py-2.5 px-3">DGMS Damage Class</th>
-                <th className="py-2.5 px-3">Status</th>
-                <th className="py-2.5 px-3">Action Required</th>
+                <th className="py-2 px-2.5">Infrastructure Asset</th>
+                <th className="py-2 px-2.5">Type</th>
+                <th className="py-2 px-2.5">Distance</th>
+                <th className="py-2 px-2.5">Induced Strain (ε)</th>
+                <th className="py-2 px-2.5">Predicted Tilt</th>
+                <th className="py-2 px-2.5">DGMS Class</th>
+                <th className="py-2 px-2.5">Status</th>
+                <th className="py-2 px-2.5">Action Required</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 text-slate-700 text-[11px]">
               {basin.infrastructureAssets.map((asset) => (
                 <tr key={asset.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3 px-3 font-semibold text-slate-900 flex items-center gap-2">
-                    {asset.type === 'ROAD' && <Car className="h-3.5 w-3.5 text-sky-600" />}
-                    {asset.type === 'RAILWAY' && <Train className="h-3.5 w-3.5 text-amber-600" />}
-                    {asset.type === 'BUILDING' && <Building2 className="h-3.5 w-3.5 text-rose-600" />}
-                    {asset.type === 'POWER_TOWER' && <Zap className="h-3.5 w-3.5 text-purple-600" />}
+                  <td className="py-2 px-2.5 font-semibold text-slate-900 flex items-center gap-1.5">
+                    {asset.type === 'ROAD' && <Car className="h-3 w-3 text-sky-600" />}
+                    {asset.type === 'RAILWAY' && <Train className="h-3 w-3 text-amber-600" />}
+                    {asset.type === 'BUILDING' && <Building2 className="h-3 w-3 text-rose-600" />}
+                    {asset.type === 'POWER_TOWER' && <Zap className="h-3 w-3 text-purple-600" />}
                     <span>{asset.name}</span>
                   </td>
-                  <td className="py-3 px-3 text-slate-500">{asset.type}</td>
-                  <td className="py-3 px-3 text-sky-700 font-bold">{asset.distanceFromCenterM} m</td>
-                  <td className="py-3 px-3 font-bold">
+                  <td className="py-2 px-2.5 text-slate-500 text-[10px]">{asset.type}</td>
+                  <td className="py-2 px-2.5 text-sky-700 font-bold">{asset.distanceFromCenterM} m</td>
+                  <td className="py-2 px-2.5 font-bold">
                     <span className={asset.currentStrainMmPerM >= asset.criticalStrainLimitMmPerM ? 'text-rose-700' : 'text-amber-700'}>
                       {asset.currentStrainMmPerM} mm/m
                     </span>
-                    <span className="text-[10px] text-slate-400 block font-normal">Limit: {asset.criticalStrainLimitMmPerM}</span>
+                    <span className="text-[9px] text-slate-400 block font-normal">Limit: {asset.criticalStrainLimitMmPerM}</span>
                   </td>
-                  <td className="py-3 px-3 text-slate-700">{asset.predictedTiltDeg}°</td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  <td className="py-2 px-2.5 text-slate-700">{asset.predictedTiltDeg}°</td>
+                  <td className="py-2 px-2.5">
+                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
                       asset.dgmsDamageClass.includes('CLASS_IV') || asset.dgmsDamageClass.includes('CLASS_III')
                         ? 'bg-rose-50 text-rose-700 border border-rose-200'
                         : asset.dgmsDamageClass.includes('CLASS_II') || asset.dgmsDamageClass.includes('CLASS_I')
@@ -482,14 +482,14 @@ export const SubsidenceBasinTab: React.FC<SubsidenceBasinTabProps> = ({
                       {asset.dgmsDamageClass.replace(/_/g, ' ')}
                     </span>
                   </td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  <td className="py-2 px-2.5">
+                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
                       asset.status === 'DANGER' ? 'bg-red-600 text-white' : asset.status === 'CAUTION' ? 'bg-amber-500 text-slate-950' : 'bg-emerald-600 text-white'
                     }`}>
                       {asset.status}
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-[11px] text-slate-600 max-w-[280px]">
+                  <td className="py-2 px-2.5 text-[10px] text-slate-600 max-w-[260px]">
                     {asset.mitigationAction}
                   </td>
                 </tr>

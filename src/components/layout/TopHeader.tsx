@@ -81,34 +81,34 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   const RiskIcon = riskBadge.icon;
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-[72px] z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-sm">
-      <div className="flex h-full w-full items-center justify-between px-4 sm:px-6">
+    <header className="fixed top-0 left-0 right-0 h-14 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
+      <div className="flex h-full w-full items-center justify-between px-3 sm:px-4 md:px-5">
         {/* LEFT SECTION: Rover Identity */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={onToggleMobileSidebar}
-            className="lg:hidden rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+            className="lg:hidden rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
             aria-label="Toggle navigation drawer"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-4 w-4" />
           </button>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* Control Room Emblem */}
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 shadow-sm shadow-amber-500/30 text-white font-black">
-              <RadioTower className="h-5 w-5" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 shadow-xs text-white font-black">
+              <RadioTower className="h-4 w-4" />
             </div>
 
             <div className="leading-tight">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-base font-extrabold tracking-wider text-slate-900">
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-sm font-extrabold tracking-wider text-slate-900">
                   MINESAFE
                 </span>
-                <span className="rounded bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-amber-800 border border-amber-300">
+                <span className="rounded bg-amber-100 px-1 py-0.2 font-mono text-[9px] font-bold uppercase tracking-wider text-amber-800 border border-amber-300">
                   SIH26025
                 </span>
               </div>
-              <p className="text-[11px] font-mono tracking-wide text-slate-500">
+              <p className="text-[10px] font-mono tracking-wide text-slate-500 hidden sm:block">
                 Mine Subsidence SCADA System
               </p>
             </div>
@@ -116,15 +116,15 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         </div>
 
         {/* CENTER SECTION: Telemetry Status HUD (Desktop / Tablet) */}
-        <div className="hidden md:flex items-center gap-3.5 rounded-xl bg-slate-50 px-4 py-1.5 border border-slate-200 font-mono text-xs shadow-inner">
+        <div className="hidden md:flex items-center gap-2.5 rounded-lg bg-slate-50 px-3 py-1 border border-slate-200 font-mono text-xs shadow-2xs">
           {/* Unit Selector */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-slate-500 uppercase font-semibold">Unit:</span>
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] text-slate-500 uppercase font-semibold">Unit:</span>
             <select
               value={roverId}
               onChange={(e) => onSelectRover(e.target.value)}
               aria-label="Select Rover Unit"
-              className="rounded-lg bg-white px-2.5 py-1 font-bold text-sky-700 border border-slate-200 focus:outline-none focus:border-sky-500 cursor-pointer shadow-sm text-xs"
+              className="rounded bg-white px-2 py-0.5 font-bold text-sky-700 border border-slate-200 focus:outline-none focus:border-sky-500 cursor-pointer shadow-2xs text-xs"
             >
               {AVAILABLE_ROVERS.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -137,12 +137,12 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           <span className="text-slate-300">|</span>
 
           {/* Gateway Status */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-slate-500 uppercase font-semibold">Link:</span>
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-bold border ${
+          <div className="flex items-center gap-1">
+            <span className="text-[10px] text-slate-500 uppercase font-semibold">Link:</span>
+            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.2 text-[10px] font-bold border ${
               connectionHealth === 'ONLINE' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
             }`}>
-              <span className={`h-2 w-2 rounded-full ${connectionHealth === 'ONLINE' ? 'bg-emerald-500' : 'bg-amber-500 animate-ping'}`} />
+              <span className={`h-1.5 w-1.5 rounded-full ${connectionHealth === 'ONLINE' ? 'bg-emerald-500' : 'bg-amber-500 animate-ping'}`} />
               {connectionHealth}
             </span>
           </div>
@@ -150,17 +150,17 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           <span className="text-slate-300">|</span>
 
           {/* Last Updated Time */}
-          <div className="flex items-center gap-1.5 text-slate-600">
-            <Clock className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-[11px] uppercase font-semibold text-slate-500">Sync:</span>
-            <span className="font-bold text-slate-800">{lastUpdatedTime}</span>
+          <div className="flex items-center gap-1 text-slate-600">
+            <Clock className="h-3 w-3 text-slate-400" />
+            <span className="text-[10px] uppercase font-semibold text-slate-500">Sync:</span>
+            <span className="font-bold text-slate-800 text-[11px]">{lastUpdatedTime}</span>
           </div>
 
           <span className="text-slate-300">|</span>
 
           {/* Overall Safety Risk Gauge */}
-          <div className="flex items-center gap-1.5">
-            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-extrabold border ${riskBadge.bg}`}>
+          <div className="flex items-center gap-1">
+            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.2 text-[10px] font-extrabold border ${riskBadge.bg}`}>
               <RiskIcon className="h-3 w-3" />
               {riskBadge.label}
             </span>
@@ -168,7 +168,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         </div>
 
         {/* RIGHT SECTION: Mode, Polling Rate & Simulation Controls */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {/* Demo Scenario Selector (Visible in DEMO mode on wide screens) */}
           {mode === 'DEMO' && (
             <div className="hidden lg:flex items-center">
@@ -176,25 +176,25 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
                 value={demoScenario}
                 onChange={(e) => onSelectDemoScenario(e.target.value as DemoScenario)}
                 aria-label="Select Demo Scenario"
-                className="rounded-lg border border-amber-300 bg-amber-50/80 px-2.5 py-1.5 text-xs font-mono font-bold text-amber-900 focus:outline-none focus:border-amber-500 cursor-pointer shadow-sm"
+                className="rounded-md border border-amber-300 bg-amber-50/90 px-2 py-1 text-xs font-mono font-bold text-amber-900 focus:outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
                 title="Simulate underground mine hazard scenario"
               >
-                <option value="normal">Scenario: Normal Traverse</option>
-                <option value="subsidence">Scenario: Roof Sag Subsidence</option>
-                <option value="vibration">Scenario: High Vibration Event</option>
-                <option value="gas_leak">Scenario: Gas Level Anomaly</option>
-                <option value="stale_connection">Scenario: Stale Packet Timeout</option>
+                <option value="normal">Scenario: Normal</option>
+                <option value="subsidence">Scenario: Roof Sag</option>
+                <option value="vibration">Scenario: High Vibration</option>
+                <option value="gas_leak">Scenario: Gas Anomaly</option>
+                <option value="stale_connection">Scenario: Stale Packet</option>
               </select>
             </div>
           )}
 
           {/* Mode Switcher: LIVE / DEMO */}
-          <div className="flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 font-mono text-xs shadow-inner">
+          <div className="flex rounded-md border border-slate-200 bg-slate-100 p-0.5 font-mono text-xs shadow-2xs">
             <button
               onClick={() => onToggleMode('LIVE')}
-              className={`flex items-center gap-1 rounded-md px-2.5 py-1 font-bold transition-all ${
+              className={`flex items-center gap-1 rounded px-2 py-0.5 font-bold transition-all text-xs ${
                 mode === 'LIVE'
-                  ? 'bg-emerald-600 text-white shadow-sm'
+                  ? 'bg-emerald-600 text-white shadow-2xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -203,9 +203,9 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             </button>
             <button
               onClick={() => onToggleMode('DEMO')}
-              className={`flex items-center gap-1 rounded-md px-2.5 py-1 font-bold transition-all ${
+              className={`flex items-center gap-1 rounded px-2 py-0.5 font-bold transition-all text-xs ${
                 mode === 'DEMO'
-                  ? 'bg-amber-500 text-slate-950 shadow-sm'
+                  ? 'bg-amber-500 text-slate-950 shadow-2xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -219,10 +219,10 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             value={pollIntervalMs}
             onChange={(e) => onSelectPollInterval(Number(e.target.value))}
             aria-label="Polling Refresh Rate"
-            className="hidden xl:block rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-mono font-medium text-slate-700 focus:outline-none focus:border-slate-400 cursor-pointer shadow-sm"
+            className="hidden xl:block rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-mono font-medium text-slate-700 focus:outline-none focus:border-slate-400 cursor-pointer shadow-2xs"
             title="Telemetry polling interval"
           >
-            <option value={1000}>1s Stream (Live)</option>
+            <option value={1000}>1s Stream</option>
             <option value={3000}>3s Polling</option>
             <option value={5000}>5s Polling</option>
             <option value={10000}>10s Polling</option>
@@ -232,19 +232,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           <button
             onClick={onManualRefresh}
             disabled={isRefreshing}
-            className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors disabled:opacity-50 shadow-sm"
+            className="rounded-md border border-slate-200 bg-white p-1.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors disabled:opacity-50 shadow-2xs"
             title="Force immediate telemetry poll"
           >
-            <RotateCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin text-sky-600' : ''}`} />
+            <RotateCw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-sky-600' : ''}`} />
           </button>
 
           {/* Compact Mobile Toggle Button */}
           <button
             onClick={() => setShowMobileControls(prev => !prev)}
-            className="md:hidden rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:bg-slate-50"
+            className="md:hidden rounded-md border border-slate-200 bg-white p-1.5 text-slate-600 hover:bg-slate-50"
             title="Toggle Quick Controls"
           >
-            <SlidersHorizontal className="h-4 w-4 text-amber-600" />
+            <SlidersHorizontal className="h-3.5 w-3.5 text-amber-600" />
           </button>
         </div>
       </div>

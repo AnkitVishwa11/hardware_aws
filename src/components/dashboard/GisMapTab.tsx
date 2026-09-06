@@ -191,34 +191,34 @@ export const GisMapTab: React.FC<GisMapTabProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Top GPS Telemetry Badges */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 text-xs font-mono bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs">
         <div className="flex items-center gap-2">
           <div className="p-1.5 rounded bg-amber-50 text-amber-600 border border-amber-100">
             <MapPin className="h-4 w-4" />
           </div>
           <div>
-            <span className="font-bold text-slate-900 block text-sm">GIS Surface Mesh & Mine Subsidence Map</span>
-            <span className="text-slate-500 text-[11px]">Jharia Coalfield Sector • Panel P-4B Subsurface Void</span>
+            <span className="font-bold text-slate-900 block text-xs sm:text-sm">GIS Surface Mesh & Mine Subsidence Map</span>
+            <span className="text-slate-500 text-[10px] sm:text-[11px]">Jharia Coalfield Sector • Panel P-4B Subsurface Void</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-1 flex items-center gap-1.5">
-            <Satellite className="h-3.5 w-3.5 text-sky-600" />
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <div className="rounded-lg bg-slate-50 border border-slate-200 px-2.5 py-1 flex items-center gap-1 text-[11px]">
+            <Satellite className="h-3 w-3 text-sky-600" />
             <span className="text-slate-500">Sats:</span>
-            <span className="text-emerald-700 font-bold">{satellites} Lock (3D Fix)</span>
+            <span className="text-emerald-700 font-bold">{satellites} Lock</span>
           </div>
 
-          <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-1 flex items-center gap-1.5">
-            <Crosshair className="h-3.5 w-3.5 text-amber-600" />
+          <div className="rounded-lg bg-slate-50 border border-slate-200 px-2.5 py-1 flex items-center gap-1 text-[11px]">
+            <Crosshair className="h-3 w-3 text-amber-600" />
             <span className="text-slate-500">GPS:</span>
-            <span className="text-slate-900 font-bold">{roverLat.toFixed(5)}°N, {roverLng.toFixed(5)}°E</span>
+            <span className="text-slate-900 font-bold">{roverLat.toFixed(4)}°N, {roverLng.toFixed(4)}°E</span>
           </div>
 
-          <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-1 flex items-center gap-1.5">
-            <Navigation className="h-3.5 w-3.5 text-emerald-600" />
+          <div className="rounded-lg bg-slate-50 border border-slate-200 px-2.5 py-1 flex items-center gap-1 text-[11px]">
+            <Navigation className="h-3 w-3 text-emerald-600" />
             <span className="text-slate-500">Alt:</span>
             <span className="text-slate-900 font-bold">{altitude.toFixed(1)} m</span>
           </div>
@@ -226,60 +226,60 @@ export const GisMapTab: React.FC<GisMapTabProps> = ({
       </div>
 
       {/* Map Control Bar & Map Container */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
         {/* Left Map View (8 cols) */}
-        <div className="xl:col-span-8 rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-3">
+        <div className="xl:col-span-8 rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs space-y-2.5">
           {/* Map Layer Switcher & Filters */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <span className="text-slate-600 font-semibold">Map Style:</span>
-              <div className="inline-flex rounded-lg bg-slate-100 p-0.5 border border-slate-200">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-100 pb-2 text-xs font-mono">
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-600 font-semibold text-[11px]">Style:</span>
+              <div className="inline-flex rounded-md bg-slate-100 p-0.5 border border-slate-200">
                 <button
                   onClick={() => setMapLayer('street')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${mapLayer === 'street' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${mapLayer === 'street' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
-                  Street Map
+                  Street
                 </button>
                 <button
                   onClick={() => setMapLayer('satellite')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${mapLayer === 'satellite' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${mapLayer === 'satellite' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   Satellite
                 </button>
                 <button
                   onClick={() => setMapLayer('dark')}
-                  className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${mapLayer === 'dark' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-all ${mapLayer === 'dark' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   Dark SCADA
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <label className="flex items-center gap-1.5 cursor-pointer text-slate-700 font-medium">
+            <div className="flex items-center gap-3 text-[11px]">
+              <label className="flex items-center gap-1 cursor-pointer text-slate-700 font-medium">
                 <input
                   type="checkbox"
                   checked={showRiskZones}
                   onChange={(e) => setShowRiskZones(e.target.checked)}
                   className="rounded border-slate-300 text-amber-600 focus:ring-0"
                 />
-                <span>Subsidence Risk Zones</span>
+                <span>Risk Zones</span>
               </label>
 
-              <label className="flex items-center gap-1.5 cursor-pointer text-slate-700 font-medium">
+              <label className="flex items-center gap-1 cursor-pointer text-slate-700 font-medium">
                 <input
                   type="checkbox"
                   checked={showMeshLinks}
                   onChange={(e) => setShowMeshLinks(e.target.checked)}
                   className="rounded border-slate-300 text-amber-600 focus:ring-0"
                 />
-                <span>Wireless Mesh Links</span>
+                <span>Mesh Links</span>
               </label>
             </div>
           </div>
 
           {/* Interactive Leaflet Map Container */}
-          <div className="relative h-[480px] w-full rounded-lg overflow-hidden border border-slate-200">
+          <div className="relative h-[360px] sm:h-[390px] w-full rounded-lg overflow-hidden border border-slate-200">
             <MapContainer
               center={[defaultLat, defaultLng]}
               zoom={16}

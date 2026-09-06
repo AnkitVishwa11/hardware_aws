@@ -42,30 +42,30 @@ export const GroundProfileSchematic: React.FC<GroundProfileSchematicProps> = ({
   const y3 = mapY(val3);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
+    <div className="rounded-xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2.5">
+        <div className="flex items-center gap-1.5">
           <div className="p-1 rounded bg-sky-50 text-sky-600 border border-sky-100">
-            <Layers className="h-4 w-4" />
+            <Layers className="h-3.5 w-3.5" />
           </div>
           <h3 className="text-xs font-mono font-bold tracking-wider text-slate-900 uppercase">
             3-POINT GROUND PROFILE (CROSS-SECTION)
           </h3>
         </div>
-        <span className="font-mono text-[10px] text-slate-500 font-medium bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+        <span className="font-mono text-[9px] text-slate-500 font-medium bg-slate-50 px-1.5 py-0.2 rounded border border-slate-200">
           Convergence Plane
         </span>
       </div>
 
       {/* SVG Technical Roof Cross-Section */}
-      <div className="relative rounded-lg bg-slate-50 p-3 border border-slate-200 my-1">
-        <div className="text-[10px] font-mono text-slate-500 mb-1 flex items-center justify-between font-semibold">
+      <div className="relative rounded-lg bg-slate-50 p-2.5 border border-slate-200 my-0.5">
+        <div className="text-[9px] font-mono text-slate-500 mb-1 flex items-center justify-between font-semibold">
           <span>MINE ROOF CONVERGENCE PROFILE</span>
           <span className="text-amber-600 font-bold">S1 ─── S2 ─── S3</span>
         </div>
 
-        <svg viewBox="0 0 380 130" className="w-full h-32">
+        <svg viewBox="0 0 380 130" className="w-full h-28">
           {/* Depth Grid Lines */}
           <line x1="30" y1="25" x2="350" y2="25" stroke="#e2e8f0" strokeDasharray="2 2" />
           <line x1="30" y1="62" x2="350" y2="62" stroke="#e2e8f0" strokeDasharray="2 2" />
@@ -119,31 +119,31 @@ export const GroundProfileSchematic: React.FC<GroundProfileSchematicProps> = ({
       </div>
 
       {/* 4 Key Measurements Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 font-mono text-xs">
-        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
-          <span className="text-[10px] text-slate-500 block font-semibold">Ground Movement</span>
-          <span className="text-sm font-bold text-slate-900">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 font-mono text-xs">
+        <div className="rounded bg-slate-50 p-2 border border-slate-200">
+          <span className="text-[9px] text-slate-500 block font-semibold">Ground Movement</span>
+          <span className="text-xs sm:text-sm font-bold text-slate-900">
             {delta2 > 0 ? '+' : ''}{delta2.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
-          <span className="text-[10px] text-slate-500 block font-semibold">Roof Convergence</span>
-          <span className="text-sm font-bold text-sky-700">
+        <div className="rounded bg-slate-50 p-2 border border-slate-200">
+          <span className="text-[9px] text-slate-500 block font-semibold">Roof Convergence</span>
+          <span className="text-xs sm:text-sm font-bold text-sky-700">
             {maxDisplacement.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
-          <span className="text-[10px] text-slate-500 block font-semibold">Differential S1-S3</span>
-          <span className="text-sm font-bold text-amber-700">
+        <div className="rounded bg-slate-50 p-2 border border-slate-200">
+          <span className="text-[9px] text-slate-500 block font-semibold">Diff S1-S3</span>
+          <span className="text-xs sm:text-sm font-bold text-amber-700">
             {diffDisplacement.toFixed(1)} cm
           </span>
         </div>
 
-        <div className="rounded bg-slate-50 p-2.5 border border-slate-200">
-          <span className="text-[10px] text-slate-500 block font-semibold">Max Displacement</span>
-          <span className={`text-sm font-bold ${isWarning ? 'text-amber-700' : 'text-emerald-700'}`}>
+        <div className="rounded bg-slate-50 p-2 border border-slate-200">
+          <span className="text-[9px] text-slate-500 block font-semibold">Max Displace</span>
+          <span className={`text-xs sm:text-sm font-bold ${isWarning ? 'text-amber-700' : 'text-emerald-700'}`}>
             {maxDisplacement.toFixed(1)} cm
           </span>
         </div>

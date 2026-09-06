@@ -9,8 +9,8 @@
 }
 
 :root {
-  --header-height: 72px;
-  --sidebar-width: 240px;
+  --header-height: 56px;
+  --sidebar-width: 220px;
   --color-bg-base: #f8fafc;
   --color-bg-surface: #ffffff;
   --color-bg-card: #ffffff;
@@ -26,6 +26,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  font-size: 13px;
 }
 
 /* Crisp Industrial light custom scrollbars */
