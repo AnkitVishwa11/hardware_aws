@@ -7,8 +7,8 @@ import {
   AnalyticsSummary 
 } from '../types/api';
 
-// Configurable API Base URL from environment variables
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.subsentry-rover.sih26025.internal';
+// Configurable API Base URL from environment variables, defaulting to current host origin
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
 class ApiService {
   private baseUrl: string;
